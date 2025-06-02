@@ -1,5 +1,4 @@
-Base de Datos “RestauranTec”
-
+Base de Datos “restaurante”
 ENTIDADES
 
 Empleado (idEmp, puestoEmp, horario, telEmp, CURP, RFC, fechIngreso, nomEmp, NSS, SueldoEmp)
@@ -11,15 +10,19 @@ Orden(idOrd(desc), total, fecha)
 Cliente(teclCte, idcte, emailCte, nomCte, direcCte)
 Mesa(idMesa, capacidad)
 Reservacion(idReser(desc), hora, noInvitados, fecha)
+Pago (idPago, idOrd, monto, tipoPago, fechaPago)
+Turno (idTurno, horaInicio, horaFin, descTurno)
+Usuario (idUsuario, idEmp, username, passwordHash, rol)
+
 
 RELACIONES
 
 Levanta (empleado, orden) 1-n
 Otorga (proveedor, insumo) 1-n
-Ingredientes (Insumo, producto) n-n
-Contiene (orden, producto) n-n
+Ingredientes (Insumo, producto) n-n----
+Contiene (orden, producto) n-n----
 Pertenece (categoria, producto) 1-n
-Pide (cliente, orden) 1=n
+Pide (cliente, orden) 1-n
 Se usa (mesa, orden) 1-n
-Contiene (mesa, reservación) n-n
-Hace (cliente, reservación) 1=n
+Contiene (mesa, reservación) n-n----
+Hace (cliente, reservación) 1-n
