@@ -4,149 +4,140 @@ USE restaurante;
 
 -- Tabla Turno
 CREATE TABLE Turno (
-                       idTurno INT PRIMARY KEY AUTO_INCREMENT,
+                       idTurno INT AUTO_INCREMENT,
                        horaInicio TIME NOT NULL,
                        horaFin TIME NOT NULL,
-                       descTurno VARCHAR(100)
+                       descTurno VARCHAR(100),
+                       CONSTRAINT pk_turno PRIMARY KEY (idTurno)
 );
 
 -- Tabla Empleado
 CREATE TABLE Empleado (
-                          idEmp INT PRIMARY KEY AUTO_INCREMENT,
+                          idEmp INT AUTO_INCREMENT,
                           puestoEmp VARCHAR(50),
                           horario VARCHAR(50),
                           telEmp VARCHAR(15),
-                          CURP VARCHAR(18) UNIQUE,
-                          RFC VARCHAR(13) UNIQUE,
+                          CURP VARCHAR(18),
+                          RFC VARCHAR(13),
                           fechIngreso DATE,
                           nomEmp VARCHAR(100),
-                          NSS VARCHAR(15) UNIQUE,
+                          NSS VARCHAR(15),
                           sueldoEmp DECIMAL(10,2),
                           idTurno INT,
-                          FOREIGN KEY (idTurno) REFERENCES Turno(idTurno)
+                          CONSTRAINT pk_empleado PRIMARY KEY (idEmp),
+                          CONSTRAINT uq_empleado_curp UNIQUE (CURP),
+                          CONSTRAINT uq_empleado_rfc UNIQUE (RFC),
+                          CONSTRAINT uq_empleado_nss UNIQUE (NSS),
+                          CONSTRAINT fk_empleado_turno FOREIGN KEY (idTurno) REFERENCES Turno(idTurno)
 );
 
 -- Tabla Usuario
 CREATE TABLE Usuario (
-                         idUsuario INT PRIMARY KEY AUTO_INCREMENT,
-                         idEmp INT NOT NULL,
-                         username VARCHAR(50) UNIQUE NOT NULL,
-                         passwordHash VARCHAR(255) NOT NULL,
+                         idUsuario INT AUTO_INCREMENT,
+                         idEmp INT,
+                         username VARCHAR(50),
+                         passwordHash VARCHAR(255),
                          rol VARCHAR(30),
-                         FOREIGN KEY (idEmp) REFERENCES Empleado(idEmp)
+                         CONSTRAINT pk_usuario PRIMARY KEY (idUsuario),
+                         CONSTRAINT uq_usuario_username UNIQUE (username),
+                         CONSTRAINT fk_usuario_empleado FOREIGN KEY (idEmp) REFERENCES Empleado(idEmp)
 );
 
 -- Tabla Proveedor
 CREATE TABLE Proveedor (
-                           idProv INT PRIMARY KEY AUTO_INCREMENT,
+                           idProv INT AUTO_INCREMENT,
                            nomProv VARCHAR(100),
                            emailProv VARCHAR(100),
                            telProv VARCHAR(15),
                            direcProv VARCHAR(255),
-                           descProv TEXT
+                           descProv TEXT,
+                           CONSTRAINT pk_proveedor PRIMARY KEY (idProv)
 );
 
 -- Tabla Insumo
 CREATE TABLE Insumo (
-                        idIns INT PRIMARY KEY AUTO_INCREMENT,
+                        idIns INT AUTO_INCREMENT,
                         descIns TEXT,
                         nomIns VARCHAR(100),
                         costoIns DECIMAL(10,2),
                         idProv INT,
-                        FOREIGN KEY (idProv) REFERENCES Proveedor(idProv)
+                        CONSTRAINT pk_insumo PRIMARY KEY (idIns),
+                        CONSTRAINT fk_insumo_proveedor FOREIGN KEY (idProv) REFERENCES Proveedor(idProv)
 );
 
 -- Tabla Categoría
 CREATE TABLE Categoria (
-                           idCat INT PRIMARY KEY AUTO_INCREMENT,
+                           idCat INT AUTO_INCREMENT,
                            nomCat VARCHAR(100),
-                           descCat TEXT
+                           descCat TEXT,
+                           CONSTRAINT pk_categoria PRIMARY KEY (idCat)
 );
 
 -- Tabla Producto
 CREATE TABLE Producto (
-                          idProd INT PRIMARY KEY AUTO_INCREMENT,
+                          idProd INT AUTO_INCREMENT,
                           precio DECIMAL(10,2),
                           costo DECIMAL(10,2),
                           nomProd VARCHAR(100),
                           idCat INT,
-                          FOREIGN KEY (idCat) REFERENCES Categoria(idCat)
-);
-
--- Tabla Ingredientes (Producto - Insumo)
-CREATE TABLE Ingredientes (
-                              idProd INT,
-                              idIns INT,
-                              cantidad DECIMAL(10,2),
-                              unidad VARCHAR(20),
-                              PRIMARY KEY (idProd, idIns),
-                              FOREIGN KEY (idProd) REFERENCES Producto(idProd),
-                              FOREIGN KEY (idIns) REFERENCES Insumo(idIns)
+                          CONSTRAINT pk_producto PRIMARY KEY (idProd),
+                          CONSTRAINT fk_producto_categoria FOREIGN KEY (idCat) REFERENCES Categoria(idCat)
 );
 
 -- Tabla Cliente
 CREATE TABLE Cliente (
-                         idCte INT PRIMARY KEY AUTO_INCREMENT,
+                         idCte INT AUTO_INCREMENT,
                          telCte VARCHAR(15),
                          emailCte VARCHAR(100),
                          nomCte VARCHAR(100),
-                         direcCte VARCHAR(255)
+                         direccion VARCHAR(255),
+                         CONSTRAINT pk_cliente PRIMARY KEY (idCte)
 );
 
 -- Tabla Mesa
 CREATE TABLE Mesa (
-                      idMesa INT PRIMARY KEY AUTO_INCREMENT,
-                      capacidad INT
+                      idMesa INT AUTO_INCREMENT,
+                      capacidad INT,
+                      CONSTRAINT pk_mesa PRIMARY KEY (idMesa)
 );
 
 -- Tabla Reservación
 CREATE TABLE Reservacion (
-                             idReser INT PRIMARY KEY AUTO_INCREMENT,
+                             idReser INT AUTO_INCREMENT,
                              hora TIME,
                              noInvitados INT,
                              fecha DATE,
                              idCte INT,
-                             FOREIGN KEY (idCte) REFERENCES Cliente(idCte)
-);
-
--- Tabla Mesa_Reservación (n-n)
-CREATE TABLE Mesa_Reservacion (
-                                  idMesa INT,
-                                  idReser INT,
-                                  PRIMARY KEY (idMesa, idReser),
-                                  FOREIGN KEY (idMesa) REFERENCES Mesa(idMesa),
-                                  FOREIGN KEY (idReser) REFERENCES Reservacion(idReser)
+                             CONSTRAINT pk_reservacion PRIMARY KEY (idReser),
+                             CONSTRAINT fk_reservacion_cliente FOREIGN KEY (idCte) REFERENCES Cliente(idCte)
 );
 
 -- Tabla Orden
 CREATE TABLE Orden (
-                       idOrd INT PRIMARY KEY AUTO_INCREMENT,
+                       idOrd INT AUTO_INCREMENT,
                        total DECIMAL(10,2),
                        fecha DATETIME,
                        idEmp INT,
                        idCte INT,
                        idMesa INT,
-                       FOREIGN KEY (idEmp) REFERENCES Empleado(idEmp),  -- Levanta
-                       FOREIGN KEY (idCte) REFERENCES Cliente(idCte),   -- Pide
-                       FOREIGN KEY (idMesa) REFERENCES Mesa(idMesa)     -- Se usa
-);
-
--- Tabla Contiene_Producto (Orden - Producto)
-CREATE TABLE Contiene_Producto (
-                                   idOrd INT,
-                                   idProd INT,
-                                   cantidad INT,
-                                   PRIMARY KEY (idOrd, idProd),
-                                   FOREIGN KEY (idOrd) REFERENCES Orden(idOrd),
-                                   FOREIGN KEY (idProd) REFERENCES Producto(idProd)
+                       CONSTRAINT pk_orden PRIMARY KEY (idOrd),
+                       CONSTRAINT fk_orden_empleado FOREIGN KEY (idEmp) REFERENCES Empleado(idEmp),
+                       CONSTRAINT fk_orden_cliente FOREIGN KEY (idCte) REFERENCES Cliente(idCte),
+                       CONSTRAINT fk_orden_mesa FOREIGN KEY (idMesa) REFERENCES Mesa(idMesa)
 );
 
 -- Tabla Pago
 CREATE TABLE Pago (
-                      idPago INT PRIMARY KEY AUTO_INCREMENT,
-                      idOrd INT NOT NULL,
+                      idPago INT AUTO_INCREMENT,
+                      idOrd INT,
                       monto DECIMAL(10,2),
                       tipoPago VARCHAR(50),
                       fechaPago DATETIME,
-                      FOREIGN KEY (idOrd) REFERENCES Orden(idOrd)
+                      CONSTRAINT pk_pago PRIMARY KEY (idPago),
+                      CONSTRAINT fk_pago_orden FOREIGN KEY (idOrd) REFERENCES Orden(idOrd)
+);
+
+CREATE TABLE ErroresConstraint (
+                                   nombreConstraint VARCHAR(100) PRIMARY KEY,
+                                   descripcion TEXT
 );

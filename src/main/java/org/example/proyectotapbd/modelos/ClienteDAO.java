@@ -2,131 +2,84 @@ package org.example.proyectotapbd.modelos;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import java.sql.*;
 
-import java.sql.ResultSet;
-import java.sql.Statement;
-
-public class ClienteDAO extends DAO <ClienteDAO>
-{
+public class ClienteDAO extends DAO<ClienteDAO> {
     private int idCte;
     private String nomCte;
     private String telCte;
     private String direccion;
     private String emailCte;
 
-    public int getIdCte() {return idCte;}
+    public int getIdCte() { return idCte; }
+    public void setIdCte(int idCte) { this.idCte = idCte; }
+    public String getNomCte() { return nomCte; }
+    public void setNomCte(String nomCte) { this.nomCte = nomCte; }
+    public String getTelCte() { return telCte; }
+    public void setTelCte(String telCte) { this.telCte = telCte; }
+    public String getDireccion() { return direccion; }
+    public void setDireccion(String direccion) { this.direccion = direccion; }
+    public String getEmailCte() { return emailCte; }
+    public void setEmailCte(String emailCte) { this.emailCte = emailCte; }
 
-    public void setIdCte(int idCte)
-    {
-        this.idCte = idCte;
-    }
+    public void INSERT() {
+        String query = "INSERT INTO cliente(nomCte, telCte, direccion, emailCte) VALUES (?, ?, ?, ?)";
 
-    public String getNomCte()
-    {
-        return nomCte;
-    }
+        try (PreparedStatement stmt = Conexion.connection.prepareStatement(query)) {
+            stmt.setString(1, nomCte);
+            stmt.setString(2, telCte);
+            stmt.setString(3, direccion);
+            stmt.setString(4, emailCte);
+            stmt.executeUpdate();
 
-    public void setNomCte(String nomCte)
-    {
-        this.nomCte = nomCte;
-    }
-
-    public String getTelCte()
-    {
-        return telCte;
-    }
-
-    public void setTelCte(String telCte)
-    {
-        this.telCte = telCte;
-    }
-
-    public String getDireccion()
-    {
-        return direccion;
-    }
-
-    public void setDireccion(String direccion)
-    {
-        this.direccion = direccion;
-    }
-
-    public String getEmailCte()
-    {
-        return emailCte;
-    }
-
-    public void setEmailCte(String emailCte)
-    {
-        this.emailCte = emailCte;
-    }
-
-    public void INSERT()
-    {
-        String query = "INSERT INTO cliente(nomCte, telCte, direccion, emailCte) VALUES( '" + nomCte + "', '" + telCte + "', '" +
-                direccion + "', '" + emailCte + "');";
-        try
-        {
-            Statement statement = Conexion.connection.createStatement();
-            statement.executeUpdate(query);
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            manejarSQLException(e);
         }
     }
 
-    public void UPDATE()
-    {
-        String query = "UPDATE cliente SET nomCTE = '" + nomCte + "',telCte = '" + telCte + "',direccion = '" + direccion +
-                "',emailCte = '" + emailCte + "' WHERE idCte = " + idCte + ";";//dado que id es numerico no hacen falta las comillas
-        try
-        {
-            Statement statement = Conexion.connection.createStatement();
-            statement.executeUpdate(query);
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    public void DELETE()
-    {
-        String query = "DELETE FROM cliente WHERE idCte = " + idCte + ";";
-        try
-        {
-            Statement statement = Conexion.connection.createStatement();
-            statement.executeUpdate(query);
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
+    public void UPDATE() {
+        String query = "UPDATE cliente SET nomCte = ?, telCte = ?, direccion = ?, emailCte = ? WHERE idCte = ?";
+        try (PreparedStatement stmt = Conexion.connection.prepareStatement(query)) {
+            stmt.setString(1, nomCte);
+            stmt.setString(2, telCte);
+            stmt.setString(3, direccion);
+            stmt.setString(4, emailCte);
+            stmt.setInt(5, idCte);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            manejarSQLException(e);
         }
     }
 
-    public ObservableList<ClienteDAO> SELECT()
-    {
-        String query = "SELECT * FROM cliente;";
+
+    public void DELETE() {
+        String query = "DELETE FROM cliente WHERE idCte = ?";
+        try (PreparedStatement stmt = Conexion.connection.prepareStatement(query)) {
+            stmt.setInt(1, idCte);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            manejarSQLException(e);
+        }
+    }
+
+
+    public ObservableList<ClienteDAO> SELECT() {
+        String query = "SELECT * FROM cliente";
         ObservableList<ClienteDAO> listaC = FXCollections.observableArrayList();
         ClienteDAO objC;
-        try
-        {
-            Statement statement = Conexion.connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(query);
-            while(resultSet.next())
-            {
+
+        try (Statement stmt = Conexion.connection.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+            while (rs.next()) {
                 objC = new ClienteDAO();
-                objC.setIdCte(resultSet.getInt("idCte"));
-                objC.setNomCte(resultSet.getString("nomCte"));
-                objC.setTelCte(resultSet.getString("telCte"));
-                objC.setDireccion(resultSet.getString("direccion"));
-                objC.setEmailCte(resultSet.getString("emailCte"));
+                objC.setIdCte(rs.getInt("idCte"));
+                objC.setNomCte(rs.getString("nomCte"));
+                objC.setTelCte(rs.getString("telCte"));
+                objC.setDireccion(rs.getString("direccion"));
+                objC.setEmailCte(rs.getString("emailCte"));
                 listaC.add(objC);
             }
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return listaC;

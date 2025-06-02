@@ -34,7 +34,7 @@ public class ListaClientes extends Stage
             tbvClientes = new TableView<>();
             btnAgregar = new Button();
             btnAgregar.setOnAction(event -> new Cliente(tbvClientes, null));
-            ImageView imv = new ImageView(new Image("file:modulo/src/com/restaurante/imagenes/add_icon.png"));
+            ImageView imv = new ImageView(new Image("file:src/images/add_icon.png"));
             imv.setFitWidth(30);
             imv.setFitHeight(30);
             tlbMenu = new ToolBar(btnAgregar);
