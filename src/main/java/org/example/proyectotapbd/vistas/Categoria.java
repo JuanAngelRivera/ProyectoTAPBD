@@ -6,7 +6,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import org.example.proyectotapbd.modelos.CategoriasDAO;
+import org.example.proyectotapbd.modelos.CategoriaDAO;
 
 public class Categoria extends Stage
 {
@@ -14,18 +14,18 @@ public class Categoria extends Stage
     private TextField txtNomCat, txtDescCat;
     private VBox vbox;
     private Scene escena;
-    private CategoriasDAO categoriasDAO;
-    private TableView <CategoriasDAO> tbvCategorias;
+    private CategoriaDAO categoriasDAO;
+    private TableView <CategoriaDAO> tbvCategorias;
     public void crearUI()
     {
         txtNomCat = new TextField();
         txtDescCat = new TextField();
         btnGuardar = new Button("Guardar");
         btnGuardar.setOnAction(e -> {
-            categoriasDAO.setNomCat(txtNomCat.getText());
-            categoriasDAO.setDescCat(txtDescCat.getText());
+            categoriasDAO.setNombreCategoria(txtNomCat.getText());
+            categoriasDAO.setDescripcion(txtDescCat.getText());
 
-            if (categoriasDAO.getIdCat() > 0)
+            if (categoriasDAO.getIdCategoria() > 0)
                 categoriasDAO.UPDATE();
             else
                 categoriasDAO.INSERT();
@@ -38,17 +38,17 @@ public class Categoria extends Stage
         escena = new Scene(vbox, 120, 150);
     }
 
-    public Categoria (TableView <CategoriasDAO> tbvCategorias, CategoriasDAO categoriasDAO)
+    public Categoria (TableView <CategoriaDAO> tbvCategorias, CategoriaDAO categoriasDAO)
     {
         this.tbvCategorias = tbvCategorias;
         crearUI();
         if (categoriasDAO == null)
-            new CategoriasDAO();
+            new CategoriaDAO();
         else
         {
             this.categoriasDAO = categoriasDAO;
-            txtNomCat.setText(this.categoriasDAO.getNomCat());
-            txtDescCat.setText(this.categoriasDAO.getDescCat());
+            txtNomCat.setText(this.categoriasDAO.getNombreCategoria());
+            txtDescCat.setText(this.categoriasDAO.getDescripcion());
         }
 
         this.setTitle("Categoria");

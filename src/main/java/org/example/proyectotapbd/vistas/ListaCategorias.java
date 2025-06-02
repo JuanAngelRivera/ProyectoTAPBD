@@ -7,7 +7,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import org.example.proyectotapbd.modelos.CategoriasDAO;
+import org.example.proyectotapbd.modelos.CategoriaDAO;
 import org.example.proyectotapbd.componentes.ButtonCell;
 
 import java.util.Optional;
@@ -16,7 +16,7 @@ public class ListaCategorias extends Stage
 {
 
     private ToolBar tlbMenu;
-    private TableView<CategoriasDAO> tbvCategorias;
+    private TableView<CategoriaDAO> tbvCategorias;
     private VBox vBox;
     private Scene escena;
     private Button btnAgregar;
@@ -45,22 +45,22 @@ public class ListaCategorias extends Stage
 
     private void CreateTable()
     {
-        CategoriasDAO objC = new CategoriasDAO();
+        CategoriaDAO objC = new CategoriaDAO();
 
-        TableColumn<CategoriasDAO,String> tbcNomCat = new TableColumn<>("Nombre");
+        TableColumn<CategoriaDAO,String> tbcNomCat = new TableColumn<>("Nombre");
         tbcNomCat.setCellValueFactory(new PropertyValueFactory<>("nomCat"));
 
-        TableColumn<CategoriasDAO,String> tbcDesc = new TableColumn<>("Descripción");
+        TableColumn<CategoriaDAO,String> tbcDesc = new TableColumn<>("Descripción");
         tbcDesc.setCellValueFactory(new PropertyValueFactory<>("descCat"));
 
-        TableColumn<CategoriasDAO,String> tbcEditar = new TableColumn<>("Editar");
+        TableColumn<CategoriaDAO,String> tbcEditar = new TableColumn<>("Editar");
         tbcEditar.setCellFactory( col -> new ButtonCell<>("Editar", (tbvCategorias, obj) -> {
             new Categoria(tbvCategorias, obj);
             tbvCategorias.setItems(obj.SELECT());
             tbvCategorias.refresh();
         }));
 
-        TableColumn<CategoriasDAO,String> tbcEliminar = new TableColumn<>("Eliminar");
+        TableColumn<CategoriaDAO,String> tbcEliminar = new TableColumn<>("Eliminar");
         tbcEliminar.setCellFactory(col -> new ButtonCell<>("Eliminar", (tbvCategorias, obj) -> {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Mensaje del sistema");

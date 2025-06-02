@@ -30,7 +30,7 @@ public class HelloApplication extends Application
         Button btnOrden = new Button("Orden");
         btnOrden.setOnAction(actionEvent -> {});
         Button btnCliente = new Button("Cliente");
-        btnCliente.setOnAction(actionEvent -> {});
+        btnCliente.setOnAction(actionEvent -> new ListaClientes());
         Button btnMesa = new Button("Mesa");
         btnMesa.setOnAction(actionEvent -> {});
         Button btnReservacion = new Button("Reservacion");

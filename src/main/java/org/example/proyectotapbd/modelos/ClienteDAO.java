@@ -63,7 +63,7 @@ public class ClienteDAO extends DAO <ClienteDAO>
 
     public void INSERT()
     {
-        String query = "INSERT INTO clientes(nomCte, telCte, direccion, emailCte) VALUES( '" + nomCte + "', '" + telCte + "', '" +
+        String query = "INSERT INTO cliente(nomCte, telCte, direccion, emailCte) VALUES( '" + nomCte + "', '" + telCte + "', '" +
                 direccion + "', '" + emailCte + "');";
         try
         {
@@ -78,7 +78,7 @@ public class ClienteDAO extends DAO <ClienteDAO>
 
     public void UPDATE()
     {
-        String query = "UPDATE clientes SET nomCTE = '" + nomCte + "',telCte = '" + telCte + "',direccion = '" + direccion +
+        String query = "UPDATE cliente SET nomCTE = '" + nomCte + "',telCte = '" + telCte + "',direccion = '" + direccion +
                 "',emailCte = '" + emailCte + "' WHERE idCte = " + idCte + ";";//dado que id es numerico no hacen falta las comillas
         try
         {
@@ -93,7 +93,7 @@ public class ClienteDAO extends DAO <ClienteDAO>
 
     public void DELETE()
     {
-        String query = "DELETE FROM clientes WHERE idCte = " + idCte + ";";
+        String query = "DELETE FROM cliente WHERE idCte = " + idCte + ";";
         try
         {
             Statement statement = Conexion.connection.createStatement();
@@ -107,7 +107,7 @@ public class ClienteDAO extends DAO <ClienteDAO>
 
     public ObservableList<ClienteDAO> SELECT()
     {
-        String query = "SELECT * FROM clientes;";
+        String query = "SELECT * FROM cliente;";
         ObservableList<ClienteDAO> listaC = FXCollections.observableArrayList();
         ClienteDAO objC;
         try
