@@ -1,28 +1,28 @@
 Base de Datos “restaurante”
 ENTIDADES
 
-Empleado (idEmp, puestoEmp, horario, telEmp, CURP, RFC, fechIngreso, nomEmp, NSS, SueldoEmp)
-Insumo (idIns, descIns, nomIns, costoIns)
-Provedor (idProv, nomProv, emailProv, telProv, direcProv, descProv)
-Producto(idProd, precio, costo, nomProd)
-Categoria(idCat, nomCat, descCat)
-Orden(idOrd(desc), total, fecha)
-Cliente(teclCte, idcte, emailCte, nomCte, direcCte)
-Mesa(idMesa, capacidad)
-Reservacion(idReser(desc), hora, noInvitados, fecha)
-Pago (idPago, idOrd, monto, tipoPago, fechaPago)
-Turno (idTurno, horaInicio, horaFin, descTurno)
-Usuario (idUsuario, idEmp, username, passwordHash, rol)
+XEmpleado (idEmp, puestoEmp, horario, telEmp, CURP, RFC, fechIngreso, nomEmp, NSS, SueldoEmp)
+XInsumo (idIns, descIns, nomIns, costoIns)
+XProvedor (idProv, nomProv, emailProv, telProv, direcProv, descProv)
+XProducto(idProd, precio, costo, nomProd)
+XCategoria(idCat, nomCat, descCat)
+XOrden(idOrd(desc), total, fecha)
+XCliente(teclCte, idcte, emailCte, nomCte, direcCte)
+XMesa(idMesa, capacidad)
+XReservacion(idReser(desc), hora, noInvitados, fecha)
+XPago (idPago, idOrd, monto, tipoPago, fechaPago)
+xTurno (idTurno, horaInicio, horaFin, descTurno)
+XUsuario (idUsuario, idEmp, username, passwordHash, rol)
 
 
 RELACIONES
 
 Levanta (empleado, orden) 1-n
 Otorga (proveedor, insumo) 1-n
-Ingredientes (Insumo, producto) n-n----
-Contiene (orden, producto) n-n----
+XIngredientes (Insumo, producto) n-n----
+XContiene (orden, producto) n-n----
 Pertenece (categoria, producto) 1-n
 Pide (cliente, orden) 1-n
 Se usa (mesa, orden) 1-n
-Contiene (mesa, reservación) n-n----
+SeHace (mesa, reservación) n-n----
 Hace (cliente, reservación) 1-n
