@@ -6,7 +6,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import org.example.proyectotapbd.modelos.ClientesDAO;
+import org.example.proyectotapbd.modelos.ClienteDAO;
 
 public class Cliente extends Stage
 {
@@ -14,8 +14,8 @@ public class Cliente extends Stage
     private TextField txtNomCte, txtDireccion, txtTelCte, txtEmail;
     private VBox vbox;
     private Scene escena;
-    private ClientesDAO clientesDAO;
-    private TableView <ClientesDAO> tbvClientes;
+    private ClienteDAO clienteDAO;
+    private TableView <ClienteDAO> tbvClientes;
     public void crearUI()
     {
         txtNomCte = new TextField();
@@ -24,17 +24,17 @@ public class Cliente extends Stage
         txtEmail = new TextField();
         btnGuardar = new Button("Guardar");
         btnGuardar.setOnAction(e -> {
-            clientesDAO.setNomCte(txtNomCte.getText());
-            clientesDAO.setDireccion(txtDireccion.getText());
-            clientesDAO.setTelCte(txtTelCte.getText());
-            clientesDAO.setEmailCte(txtEmail.getText());
+            clienteDAO.setNomCte(txtNomCte.getText());
+            clienteDAO.setDireccion(txtDireccion.getText());
+            clienteDAO.setTelCte(txtTelCte.getText());
+            clienteDAO.setEmailCte(txtEmail.getText());
 
-            if (clientesDAO.getIdCte() > 0)
-                clientesDAO.UPDATE();
+            if (clienteDAO.getIdCte() > 0)
+                clienteDAO.UPDATE();
             else
-                clientesDAO.INSERT();
+                clienteDAO.INSERT();
 
-            tbvClientes.setItems(clientesDAO.SELECT());
+            tbvClientes.setItems(clienteDAO.SELECT());
             tbvClientes.refresh();
             this.close();
         });
@@ -42,19 +42,19 @@ public class Cliente extends Stage
         escena = new Scene(vbox, 120, 150);
     }
 
-    public Cliente (TableView <ClientesDAO> tbvClientes, ClientesDAO clientesDAO)
+    public Cliente (TableView <ClienteDAO> tbvClientes, ClienteDAO clienteDAO)
     {
         this.tbvClientes = tbvClientes;
         crearUI();
-        if (clientesDAO == null)
-            new ClientesDAO();
+        if (clienteDAO == null)
+            new ClienteDAO();
         else
         {
-            this.clientesDAO = clientesDAO;
-            txtNomCte.setText(this.clientesDAO.getNomCte());
-            txtDireccion.setText(this.clientesDAO.getDireccion());
-            txtTelCte.setText(this.clientesDAO.getTelCte());
-            txtEmail.setText(this.clientesDAO.getEmailCte());
+            this.clienteDAO = clienteDAO;
+            txtNomCte.setText(this.clienteDAO.getNomCte());
+            txtDireccion.setText(this.clienteDAO.getDireccion());
+            txtTelCte.setText(this.clienteDAO.getTelCte());
+            txtEmail.setText(this.clienteDAO.getEmailCte());
         }
 
         this.setTitle("Cliente");

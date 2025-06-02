@@ -1,0 +1,76 @@
+package org.example.proyectotapbd.modelos;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
+public class ProductoDAO extends DAO<ProductoDAO> {
+    private int idProd;
+    private String nomProd;
+    private double precio;
+    private double costo;
+
+    public int getIdProd() { return idProd; }
+    public void setIdProd(int idProd) { this.idProd = idProd; }
+
+    public String getNomProd() { return nomProd; }
+    public void setNomProd(String nomProd) { this.nomProd = nomProd; }
+
+    public double getPrecio() { return precio; }
+    public void setPrecio(double precio) { this.precio = precio; }
+
+    public double getCosto() { return costo; }
+    public void setCosto(double costo) { this.costo = costo; }
+
+    public void INSERT() {
+        String query = "INSERT INTO producto(nomProd, precio, costo) VALUES('" + nomProd + "', " + precio + ", " + costo + ");";
+        try {
+            Statement stmt = Conexion.connection.createStatement();
+            stmt.executeUpdate(query);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void UPDATE() {
+        String query = "UPDATE producto SET nomProd = '" + nomProd + "', precio = " + precio + ", costo = " + costo +
+                " WHERE idProd = " + idProd + ";";
+        try {
+            Statement stmt = Conexion.connection.createStatement();
+            stmt.executeUpdate(query);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void DELETE() {
+        String query = "DELETE FROM producto WHERE idProd = " + idProd + ";";
+        try {
+            Statement stmt = Conexion.connection.createStatement();
+            stmt.executeUpdate(query);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public ObservableList<ProductoDAO> SELECT() {
+        ObservableList<ProductoDAO> lista = FXCollections.observableArrayList();
+        String query = "SELECT * FROM producto;";
+        try {
+            Statement stmt = Conexion.connection.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                ProductoDAO p = new ProductoDAO();
+                p.setIdProd(rs.getInt("idProd"));
+                p.setNomProd(rs.getString("nomProd"));
+                p.setPrecio(rs.getDouble("precio"));
+                p.setCosto(rs.getDouble("costo"));
+                lista.add(p);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return lista;
+    }
+}

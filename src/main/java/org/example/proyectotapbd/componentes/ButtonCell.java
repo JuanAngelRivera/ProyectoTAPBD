@@ -1,12 +1,8 @@
 package org.example.proyectotapbd.componentes;
 
 import javafx.scene.control.*;
-import org.example.proyectotapbd.modelos.ClientesDAO;
-import org.example.proyectotapbd.modelos.DAO;
-import org.example.proyectotapbd.vistas.Cliente;
-import java.util.Optional;
+
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 public class ButtonCell<T> extends TableCell<T, String>
 {

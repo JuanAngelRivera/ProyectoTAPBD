@@ -7,8 +7,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.util.Callback;
-import org.example.proyectotapbd.modelos.ClientesDAO;
+import org.example.proyectotapbd.modelos.ClienteDAO;
 import org.example.proyectotapbd.componentes.ButtonCell;
 
 import java.util.Optional;
@@ -17,7 +16,7 @@ public class ListaClientes extends Stage
 {
 
     private ToolBar tlbMenu;
-    private TableView<ClientesDAO> tbvClientes;
+    private TableView<ClienteDAO> tbvClientes;
     private VBox vBox;
     private Scene escena;
     private Button btnAgregar;
@@ -51,24 +50,24 @@ public class ListaClientes extends Stage
 
     private void CreateTable()
     {
-        ClientesDAO clientesDAO = new ClientesDAO();
-        TableColumn<ClientesDAO,String> tbcNomCte = new TableColumn<>("Nombre");
+        ClienteDAO clienteDAO = new ClienteDAO();
+        TableColumn<ClienteDAO,String> tbcNomCte = new TableColumn<>("Nombre");
         tbcNomCte.setCellValueFactory(new PropertyValueFactory<>("nomCte"));
-        TableColumn<ClientesDAO,String> tbcDireccion = new TableColumn<>("Dirección");
+        TableColumn<ClienteDAO,String> tbcDireccion = new TableColumn<>("Dirección");
         tbcDireccion.setCellValueFactory(new PropertyValueFactory<>("direccion"));
-        TableColumn<ClientesDAO,String> tbcTel = new TableColumn<>("Telefono");
+        TableColumn<ClienteDAO,String> tbcTel = new TableColumn<>("Telefono");
         tbcTel.setCellValueFactory(new PropertyValueFactory<>("telCte"));
-        TableColumn<ClientesDAO,String> tbcEmail = new TableColumn<>("Email");
+        TableColumn<ClienteDAO,String> tbcEmail = new TableColumn<>("Email");
         tbcEmail.setCellValueFactory(new PropertyValueFactory<>("emailCte"));
 
-        TableColumn<ClientesDAO,String> tbcEditar = new TableColumn<>("Editar");
+        TableColumn<ClienteDAO,String> tbcEditar = new TableColumn<>("Editar");
         tbcEditar.setCellFactory( col -> new ButtonCell<>("Editar", (tbvClientes, objC) -> {
             new Cliente(tbvClientes, objC);
             tbvClientes.setItems(objC.SELECT());
             tbvClientes.refresh();
         }));
 
-        TableColumn<ClientesDAO,String> tbcEliminar = new TableColumn<>("Eliminar");
+        TableColumn<ClienteDAO,String> tbcEliminar = new TableColumn<>("Eliminar");
         tbcEliminar.setCellFactory(col -> new ButtonCell<>("Eliminar", (tbvClientes, objC) -> {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Mensaje del sistema");
@@ -82,6 +81,6 @@ public class ListaClientes extends Stage
 
 
         tbvClientes.getColumns().addAll(tbcNomCte,tbcDireccion,tbcTel,tbcEmail,tbcEditar,tbcEliminar);
-        tbvClientes.setItems(clientesDAO.SELECT());
+        tbvClientes.setItems(clienteDAO.SELECT());
     }
 }
