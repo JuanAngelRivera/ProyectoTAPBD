@@ -32,11 +32,8 @@ public class ListaClientes extends Stage
         try
         {
             tbvClientes = new TableView<>();
-            btnAgregar = new Button();
+            btnAgregar = new Button("Agregar");
             btnAgregar.setOnAction(event -> new Cliente(tbvClientes, null));
-            ImageView imv = new ImageView(new Image("file:src/images/add_icon.png"));
-            imv.setFitWidth(30);
-            imv.setFitHeight(30);
             tlbMenu = new ToolBar(btnAgregar);
             CreateTable();
             vBox = new VBox(tlbMenu, tbvClientes);
