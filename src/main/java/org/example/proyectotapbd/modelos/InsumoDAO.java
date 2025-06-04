@@ -73,4 +73,9 @@ public class InsumoDAO extends DAO<InsumoDAO> {
         }
         return lista;
     }
+
+    @Override
+    public Class<InsumoDAO> getModelClass() {
+        return InsumoDAO.class;
+    }
 }

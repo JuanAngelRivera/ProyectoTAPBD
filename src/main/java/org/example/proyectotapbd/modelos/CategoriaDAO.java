@@ -73,4 +73,9 @@ public class CategoriaDAO extends DAO<CategoriaDAO> {
         }
         return lista;
     }
+
+    @Override
+    public Class<CategoriaDAO> getModelClass() {
+        return CategoriaDAO.class;
+    }
 }

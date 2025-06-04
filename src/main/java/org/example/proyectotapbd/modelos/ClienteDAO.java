@@ -84,4 +84,9 @@ public class ClienteDAO extends DAO<ClienteDAO> {
         }
         return listaC;
     }
+
+    @Override
+    public Class<ClienteDAO> getModelClass() {
+        return ClienteDAO.class;
+    }
 }

@@ -92,4 +92,9 @@ public class ContieneDAO extends DAO<ContieneDAO> {
         }
         return lista;
     }
+
+    @Override
+    public Class<ContieneDAO> getModelClass() {
+        return ContieneDAO.class;
+    }
 }

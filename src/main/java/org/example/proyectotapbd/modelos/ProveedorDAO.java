@@ -66,6 +66,11 @@ public class ProveedorDAO extends DAO<ProveedorDAO> {
         } catch (Exception e) { e.printStackTrace(); }
         return lista;
     }
+
+    @Override
+    public Class<ProveedorDAO> getModelClass() {
+        return ProveedorDAO.class;
+    }
 }
 
 // Puedo continuar con InsumoDAO, ProductoDAO, MesaDAO, OrdenDAO, etc.

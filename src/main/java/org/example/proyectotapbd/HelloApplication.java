@@ -2,6 +2,7 @@ package org.example.proyectotapbd;
 
 import org.example.proyectotapbd.vistas.*;
 import org.example.proyectotapbd.modelos.*;
+import org.example.proyectotapbd.modelos.ClienteDAO;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -30,7 +31,7 @@ public class HelloApplication extends Application
         Button btnOrden = new Button("Orden");
         btnOrden.setOnAction(actionEvent -> {});
         Button btnCliente = new Button("Cliente");
-        btnCliente.setOnAction(actionEvent -> new ListaClientes());
+        btnCliente.setOnAction(actionEvent -> new VistaGenerica<>(ClienteDAO.class));
         Button btnMesa = new Button("Mesa");
         btnMesa.setOnAction(actionEvent -> {});
         Button btnReservacion = new Button("Reservacion");

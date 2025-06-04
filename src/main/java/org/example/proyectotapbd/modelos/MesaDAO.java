@@ -73,4 +73,9 @@ public class MesaDAO extends DAO<MesaDAO> {
         }
         return lista;
     }
+
+    @Override
+    public Class<MesaDAO> getModelClass() {
+        return MesaDAO.class;
+    }
 }

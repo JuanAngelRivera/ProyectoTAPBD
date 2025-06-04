@@ -82,4 +82,9 @@ public class PagoDAO extends DAO<PagoDAO> {
         }
         return lista;
     }
+
+    @Override
+    public Class<PagoDAO> getModelClass() {
+        return PagoDAO.class;
+    }
 }

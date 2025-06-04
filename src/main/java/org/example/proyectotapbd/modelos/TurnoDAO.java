@@ -97,4 +97,9 @@ public class TurnoDAO extends DAO<TurnoDAO> {
         }
         return lista;
     }
+
+    @Override
+    public Class<TurnoDAO> getModelClass() {
+        return TurnoDAO.class;
+    }
 }

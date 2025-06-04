@@ -3,8 +3,6 @@ package org.example.proyectotapbd.vistas;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.example.proyectotapbd.modelos.ClienteDAO;

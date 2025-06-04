@@ -73,4 +73,9 @@ public class OrdenDAO extends DAO<OrdenDAO> {
         }
         return lista;
     }
+
+    @Override
+    public Class<OrdenDAO> getModelClass() {
+        return OrdenDAO.class;
+    }
 }

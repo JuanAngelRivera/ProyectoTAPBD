@@ -76,4 +76,9 @@ public class SeHaceDAO extends DAO<SeHaceDAO> {
         }
         return lista;
     }
+
+    @Override
+    public Class<SeHaceDAO> getModelClass() {
+        return SeHaceDAO.class;
+    }
 }

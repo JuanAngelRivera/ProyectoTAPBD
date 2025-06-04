@@ -73,4 +73,9 @@ public class ProductoDAO extends DAO<ProductoDAO> {
         }
         return lista;
     }
+
+    @Override
+    public Class<ProductoDAO> getModelClass() {
+        return ProductoDAO.class;
+    }
 }

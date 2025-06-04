@@ -107,4 +107,9 @@ public class UsuarioDAO extends DAO<UsuarioDAO> {
         }
         return lista;
     }
+
+    @Override
+    public Class<UsuarioDAO> getModelClass() {
+        return UsuarioDAO.class;
+    }
 }

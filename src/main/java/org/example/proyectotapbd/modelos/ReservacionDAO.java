@@ -80,4 +80,9 @@ public class ReservacionDAO extends DAO<ReservacionDAO> {
         }
         return lista;
     }
+
+    @Override
+    public Class<ReservacionDAO> getModelClass() {
+        return ReservacionDAO.class;
+    }
 }

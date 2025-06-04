@@ -113,4 +113,9 @@ public class EmpleadoDAO extends DAO<EmpleadoDAO> {
         }
         return lista;
     }
+
+    @Override
+    public Class<EmpleadoDAO> getModelClass() {
+        return EmpleadoDAO.class;
+    }
 }

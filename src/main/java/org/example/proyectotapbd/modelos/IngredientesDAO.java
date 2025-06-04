@@ -73,4 +73,8 @@ public class IngredientesDAO extends DAO<IngredientesDAO> {
         }
         return lista;
     }
+    @Override
+    public Class<IngredientesDAO> getModelClass() {
+        return IngredientesDAO.class;
+    }
 }
