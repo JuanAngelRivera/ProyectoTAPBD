@@ -6,15 +6,15 @@ import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.example.proyectotapbd.componentes.ButtonCell;
-import org.example.proyectotapbd.modelos.DAO;
+import org.example.proyectotapbd.utils.modelos.DAO;
+import org.example.proyectotapbd.utils.modelos.Metodos;
 
 import java.lang.reflect.Field;
-import java.util.List;
 
 public class VistaGenerica<T extends DAO<T>> extends Stage {
 
     private TableView<T> tableView;
-    private VBox vbox;
+    private VBox vbox, root;
     private Scene escena;
     private ToolBar tlbMenu;
     private Button btnAgregar;
@@ -26,7 +26,7 @@ public class VistaGenerica<T extends DAO<T>> extends Stage {
             crearUI(claseDAO);
             this.setTitle("Listado de " + claseDAO.getSimpleName().replace("DAO", ""));
             this.setScene(escena);
-            this.show();
+            Metodos.configVista(this, root);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -97,6 +97,7 @@ public class VistaGenerica<T extends DAO<T>> extends Stage {
         tableView.setItems(dao.SELECT());
 
         vbox = new VBox(tlbMenu, tableView);
-        escena = new Scene(vbox, 800, 600);
+        root = new VBox(vbox);
+        escena = new Scene(root);
     }
 }

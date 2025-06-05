@@ -1,4 +1,4 @@
-package org.example.proyectotapbd.modelos;
+package org.example.proyectotapbd.utils.modelos;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

@@ -1,7 +1,7 @@
 // DAOs para todas las entidades de la base de datos "restaurante"
 // Todos heredan de DAO<T> y siguen el formato del ClienteDAO
 
-package org.example.proyectotapbd.modelos;
+package org.example.proyectotapbd.utils.modelos;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

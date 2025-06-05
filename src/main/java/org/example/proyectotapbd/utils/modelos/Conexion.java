@@ -1,4 +1,4 @@
-package org.example.proyectotapbd.modelos;
+package org.example.proyectotapbd.utils.modelos;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

@@ -1,4 +1,4 @@
-package org.example.proyectotapbd.modelos;
+package org.example.proyectotapbd.utils.modelos;
 
 import javafx.collections.ObservableList;
 import org.example.proyectotapbd.BD.ManejadorErrores;

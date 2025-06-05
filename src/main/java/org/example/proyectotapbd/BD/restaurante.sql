@@ -68,8 +68,10 @@ CREATE TABLE Producto (
                           costo DECIMAL(10,2),
                           nomProd VARCHAR(100),
                           idCat INT,
+                          imagen VARCHAR(255),
                           CONSTRAINT pk_producto PRIMARY KEY (idProd),
                           CONSTRAINT fk_producto_categoria FOREIGN KEY (idCat) REFERENCES Categoria(idCat)
+
 );
 
 -- Tabla Cliente
@@ -80,6 +82,7 @@ CREATE TABLE Cliente (
                          nomCte VARCHAR(100),
                          direccion VARCHAR(255),
                          CONSTRAINT pk_cliente PRIMARY KEY (idCte)
+                         CONSTRAINT uq_email UNIQUE (emailCte),
 );
 
 -- Tabla Mesa

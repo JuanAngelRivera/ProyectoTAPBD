@@ -1,7 +1,5 @@
 package org.example.proyectotapbd.BD;
 
-import org.example.proyectotapbd.componentes.VentanaError;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -33,7 +31,7 @@ public class ManejadorErrores {
         if (nombreConstraint == null) return null;
 
         String query = "SELECT descripcion FROM ErroresConstraint WHERE nombreConstraint = ?";
-        try (PreparedStatement stmt = org.example.proyectotapbd.modelos.Conexion.connection.prepareStatement(query)) {
+        try (PreparedStatement stmt = org.example.proyectotapbd.utils.modelos.Conexion.connection.prepareStatement(query)) {
             stmt.setString(1, nombreConstraint);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {

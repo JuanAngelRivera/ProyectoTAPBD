@@ -7,8 +7,8 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-import org.example.proyectotapbd.modelos.DAO;
-import org.example.proyectotapbd.componentes.VentanaError;
+import org.example.proyectotapbd.utils.modelos.DAO;
+import org.example.proyectotapbd.utils.modelos.Metodos;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -18,7 +18,7 @@ public class VistaFormularioGenerica<T extends DAO<T>> extends Stage {
 
     private T dao;
     private TableView<T> tabla;
-    private VBox root;
+    private VBox root, vbox;
     private Scene escena;
     private HashMap<String, TextField> camposTexto = new HashMap<>();
 
@@ -38,7 +38,7 @@ public class VistaFormularioGenerica<T extends DAO<T>> extends Stage {
 
         this.setTitle("Formulario de " + dao.getClass().getSimpleName());
         this.setScene(escena);
-        this.show();
+        Metodos.configVista(this, root);
     }
 
     private void crearUI() {
@@ -74,9 +74,10 @@ public class VistaFormularioGenerica<T extends DAO<T>> extends Stage {
         HBox hbox = new HBox(10, vboxLabels, vboxFields);
         hbox.setAlignment(Pos.CENTER);
 
-        root = new VBox(20, hbox);
-        root.setAlignment(Pos.CENTER);
-        root.setPadding(new Insets(10, 10, 10, 10));
+        vbox = new VBox(20, hbox);
+        vbox.setAlignment(Pos.CENTER);
+        vbox.setPadding(new Insets(10, 10, 10, 10));
+        root = new VBox(10, vbox);
         escena = new Scene(root);
     }
 
