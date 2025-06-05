@@ -6,8 +6,9 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 
 public class IngredientesDAO extends DAO<IngredientesDAO> {
-    private int idIns;   // id del Insumo
-    private int idProd;  // id del Producto
+    private int idIns;
+    private int idProd;
+    private int cantidad;
 
     // Getters y setters
     public int getIdIns() {
@@ -26,9 +27,15 @@ public class IngredientesDAO extends DAO<IngredientesDAO> {
         this.idProd = idProd;
     }
 
+    public int getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(int cantidad) {this.cantidad = cantidad;}
+
     @Override
     public void INSERT() {
-        String query = "INSERT INTO ingredientes(idIns, idProd) VALUES(" + idIns + ", " + idProd + ");";
+        String query = "INSERT INTO ingredientes(idIns, idProd, cantidad) VALUES(" + idIns + ", " + idProd + ", " + cantidad + ");";
         try {
             Statement stmt = Conexion.connection.createStatement();
             stmt.executeUpdate(query);
@@ -66,6 +73,7 @@ public class IngredientesDAO extends DAO<IngredientesDAO> {
                 IngredientesDAO obj = new IngredientesDAO();
                 obj.setIdIns(rs.getInt("idIns"));
                 obj.setIdProd(rs.getInt("idProd"));
+                obj.setCantidad(rs.getInt("cantidad"));
                 lista.add(obj);
             }
         } catch (Exception e) {

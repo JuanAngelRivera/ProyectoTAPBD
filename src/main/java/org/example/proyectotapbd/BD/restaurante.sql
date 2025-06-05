@@ -86,6 +86,7 @@ CREATE TABLE Cliente (
 CREATE TABLE Mesa (
                       idMesa INT AUTO_INCREMENT,
                       capacidad INT,
+                      ocupada BOOLEAN DEFAULT FALSE,
                       CONSTRAINT pk_mesa PRIMARY KEY (idMesa)
 );
 
@@ -137,4 +138,14 @@ CREATE TABLE TipoPago(
                     idTipoPago INT AUTO_INCREMENT,
                     descripcion TEXT,
                     CONSTRAINT pk_tipo_pago PRIMARY KEY (idTipoPago)
+);
+
+-- Tabla Ingredientes
+CREATE TABLE Ingredientes(
+                   idIns int,
+                   idProd int,
+                   cantidad int,
+                   CONSTRAINT pk_ingredientes PRIMARY KEY (idIns, idProd),
+                   CONSTRAINT foreign key (idIns) references Insumo(idIns),
+                   CONSTRAINT foreign key (idProd) references Producto(idProd)
 );

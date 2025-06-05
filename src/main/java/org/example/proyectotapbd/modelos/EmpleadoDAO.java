@@ -10,7 +10,6 @@ public class EmpleadoDAO extends DAO<EmpleadoDAO> {
 
     private int idEmp;
     private String puestoEmp;
-    private String horario;
     private String telEmp;
     private String curp;
     private String rfc;
@@ -18,15 +17,13 @@ public class EmpleadoDAO extends DAO<EmpleadoDAO> {
     private String nomEmp;
     private String nss;
     private double sueldoEmp;
+    private int idTurno;
 
     public int getIdEmp() { return idEmp; }
     public void setIdEmp(int idEmp) { this.idEmp = idEmp; }
 
     public String getPuestoEmp() { return puestoEmp; }
     public void setPuestoEmp(String puestoEmp) { this.puestoEmp = puestoEmp; }
-
-    public String getHorario() { return horario; }
-    public void setHorario(String horario) { this.horario = horario; }
 
     public String getTelEmp() { return telEmp; }
     public void setTelEmp(String telEmp) { this.telEmp = telEmp; }
@@ -49,11 +46,19 @@ public class EmpleadoDAO extends DAO<EmpleadoDAO> {
     public double getSueldoEmp() { return sueldoEmp; }
     public void setSueldoEmp(double sueldoEmp) { this.sueldoEmp = sueldoEmp; }
 
+    public int getIdTurno() {
+        return idTurno;
+    }
+
+    public void setIdTurno(int idTurno) {
+        this.idTurno = idTurno;
+    }
+
     @Override
     public void INSERT() {
-        String query = "INSERT INTO empleado(puestoEmp, horario, telEmp, CURP, RFC, fechIngreso, nomEmp, NSS, SueldoEmp) VALUES ('" +
-                puestoEmp + "', '" + horario + "', '" + telEmp + "', '" + curp + "', '" + rfc + "', '" +
-                fechIngreso + "', '" + nomEmp + "', '" + nss + "', " + sueldoEmp + ");";
+        String query = "INSERT INTO empleado(puestoEmp, telEmp, CURP, RFC, fechIngreso, nomEmp, NSS, SueldoEmp, idTurno) VALUES ('" +
+                puestoEmp + "', '" + "', '" + telEmp + "', '" + curp + "', '" + rfc + "', '" +
+                fechIngreso + "', '" + nomEmp + "', '" + nss + "', '" + sueldoEmp + "', " + idTurno + ");";
         try {
             Statement stmt = Conexion.connection.createStatement();
             stmt.executeUpdate(query);
@@ -64,9 +69,9 @@ public class EmpleadoDAO extends DAO<EmpleadoDAO> {
 
     @Override
     public void UPDATE() {
-        String query = "UPDATE empleado SET puestoEmp = '" + puestoEmp + "', horario = '" + horario +
+        String query = "UPDATE empleado SET puestoEmp = '" + puestoEmp +
                 "', telEmp = '" + telEmp + "', CURP = '" + curp + "', RFC = '" + rfc + "', fechIngreso = '" + fechIngreso +
-                "', nomEmp = '" + nomEmp + "', NSS = '" + nss + "', SueldoEmp = " + sueldoEmp +
+                "', nomEmp = '" + nomEmp + "', NSS = '" + nss + "', SueldoEmp = '" + sueldoEmp + "', idTurno = " + idTurno +
                 " WHERE idEmp = " + idEmp + ";";
         try {
             Statement stmt = Conexion.connection.createStatement();
@@ -98,7 +103,6 @@ public class EmpleadoDAO extends DAO<EmpleadoDAO> {
                 EmpleadoDAO emp = new EmpleadoDAO();
                 emp.setIdEmp(rs.getInt("idEmp"));
                 emp.setPuestoEmp(rs.getString("puestoEmp"));
-                emp.setHorario(rs.getString("horario"));
                 emp.setTelEmp(rs.getString("telEmp"));
                 emp.setCurp(rs.getString("CURP"));
                 emp.setRfc(rs.getString("RFC"));
@@ -106,6 +110,7 @@ public class EmpleadoDAO extends DAO<EmpleadoDAO> {
                 emp.setNomEmp(rs.getString("nomEmp"));
                 emp.setNss(rs.getString("NSS"));
                 emp.setSueldoEmp(rs.getDouble("SueldoEmp"));
+                emp.setIdTurno(rs.getInt("idTurno"));
                 lista.add(emp);
             }
         } catch (Exception e) {

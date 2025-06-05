@@ -10,6 +10,7 @@ public class InsumoDAO extends DAO<InsumoDAO> {
     private String nomIns;
     private String descIns;
     private double costoIns;
+    private int idProv;
 
     public int getIdIns() { return idIns; }
     public void setIdIns(int idIns) { this.idIns = idIns; }
@@ -23,8 +24,16 @@ public class InsumoDAO extends DAO<InsumoDAO> {
     public double getCostoIns() { return costoIns; }
     public void setCostoIns(double costoIns) { this.costoIns = costoIns; }
 
+    public int getIdProv() {
+        return idProv;
+    }
+
+    public void setIdProv(int idProv) {
+        this.idProv = idProv;
+    }
+
     public void INSERT() {
-        String query = "INSERT INTO insumo(nomIns, descIns, costoIns) VALUES('" + nomIns + "', '" + descIns + "', " + costoIns + ");";
+        String query = "INSERT INTO insumo(nomIns, descIns, costoIns, idProv) VALUES('" + nomIns + "', '" + descIns + "', '" + costoIns + "', idProv" + ");";
         try {
             Statement stmt = Conexion.connection.createStatement();
             stmt.executeUpdate(query);
@@ -34,7 +43,7 @@ public class InsumoDAO extends DAO<InsumoDAO> {
     }
 
     public void UPDATE() {
-        String query = "UPDATE insumo SET nomIns = '" + nomIns + "', descIns = '" + descIns + "', costoIns = " + costoIns +
+        String query = "UPDATE insumo SET nomIns = '" + nomIns + "', descIns = '" + descIns + "', costoIns = '" + costoIns + "', idProv = " + idProv +
                 " WHERE idIns = " + idIns + ";";
         try {
             Statement stmt = Conexion.connection.createStatement();
@@ -66,6 +75,7 @@ public class InsumoDAO extends DAO<InsumoDAO> {
                 i.setNomIns(rs.getString("nomIns"));
                 i.setDescIns(rs.getString("descIns"));
                 i.setCostoIns(rs.getDouble("costoIns"));
+                i.setIdProv(rs.getInt("idProv"));
                 lista.add(i);
             }
         } catch (Exception e) {

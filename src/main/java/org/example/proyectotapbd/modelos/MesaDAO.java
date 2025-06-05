@@ -7,24 +7,20 @@ import java.sql.Statement;
 
 public class MesaDAO extends DAO<MesaDAO> {
     private int idMesa;
-    private int numMesa;
     private int capacidad;
-    private String ubicacion;
+    private boolean ocupada;
 
     public int getIdMesa() { return idMesa; }
     public void setIdMesa(int idMesa) { this.idMesa = idMesa; }
 
-    public int getNumMesa() { return numMesa; }
-    public void setNumMesa(int numMesa) { this.numMesa = numMesa; }
-
     public int getCapacidad() { return capacidad; }
     public void setCapacidad(int capacidad) { this.capacidad = capacidad; }
 
-    public String getUbicacion() { return ubicacion; }
-    public void setUbicacion(String ubicacion) { this.ubicacion = ubicacion; }
+    public boolean getOcupada() { return ocupada; }
+    public void setOcupada(boolean ocupada) { this.ocupada = ocupada; }
 
     public void INSERT() {
-        String query = "INSERT INTO mesa(numMesa, capacidad, ubicacion) VALUES(" + numMesa + ", " + capacidad + ", '" + ubicacion + "');";
+        String query = "INSERT INTO mesa(idMesa, capacidad, ocupada) VALUES(" + idMesa + ", " + capacidad + ", '" + ocupada + "');";
         try {
             Statement stmt = Conexion.connection.createStatement();
             stmt.executeUpdate(query);
@@ -34,7 +30,7 @@ public class MesaDAO extends DAO<MesaDAO> {
     }
 
     public void UPDATE() {
-        String query = "UPDATE mesa SET numMesa = " + numMesa + ", capacidad = " + capacidad + ", ubicacion = '" + ubicacion +
+        String query = "UPDATE mesa SET capacidad = " + capacidad + ", ocupada = '" + ocupada +
                 "' WHERE idMesa = " + idMesa + ";";
         try {
             Statement stmt = Conexion.connection.createStatement();
@@ -63,9 +59,8 @@ public class MesaDAO extends DAO<MesaDAO> {
             while (rs.next()) {
                 MesaDAO m = new MesaDAO();
                 m.setIdMesa(rs.getInt("idMesa"));
-                m.setNumMesa(rs.getInt("numMesa"));
                 m.setCapacidad(rs.getInt("capacidad"));
-                m.setUbicacion(rs.getString("ubicacion"));
+                m.setOcupada(rs.getBoolean("ocupada"));
                 lista.add(m);
             }
         } catch (Exception e) {

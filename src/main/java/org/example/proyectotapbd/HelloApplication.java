@@ -38,8 +38,6 @@ public class HelloApplication extends Application
         btnPago.setOnAction(actionEvent -> new VistaGenerica<>(PagoDAO.class));
         Button btnTurno = new Button("Turno");
         btnTurno.setOnAction(actionEvent -> new VistaGenerica<>(TurnoDAO.class));
-        Button btnUsuario = new Button("Usuario");
-        btnUsuario.setOnAction(actionEvent -> new VistaGenerica<>(UsuarioDAO.class));
         Button btnIngredientes = new Button("Ingredientes");
         btnIngredientes.setOnAction(actionEvent -> new VistaGenerica<>(IngredientesDAO.class));
         Button btnContiene = new Button("Contiene");
@@ -59,10 +57,9 @@ public class HelloApplication extends Application
         grid.add(btnReservacion, 1, 3);
         grid.add(btnPago, 1, 4);
         grid.add(btnTurno, 2, 0);
-        grid.add(btnUsuario, 2, 1);
-        grid.add(btnIngredientes, 2, 2);
-        grid.add(btnContiene, 2, 3);
-        grid.add(btnSeHace, 2, 4);
+        grid.add(btnIngredientes, 2, 1);
+        grid.add(btnContiene, 2, 2);
+        grid.add(btnSeHace, 2, 3);
 
         VBox vbox = new VBox(grid);
         vbox.setAlignment(Pos.CENTER);

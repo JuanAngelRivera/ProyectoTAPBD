@@ -1,9 +1,11 @@
 package org.example.proyectotapbd.vistas;
 
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import org.example.proyectotapbd.modelos.DAO;
 import org.example.proyectotapbd.componentes.VentanaError;
@@ -40,14 +42,16 @@ public class VistaFormularioGenerica<T extends DAO<T>> extends Stage {
     }
 
     private void crearUI() {
-        VBox vboxLabels = new VBox(10);
-        VBox vboxFields = new VBox(10);
+        VBox vboxLabels = new VBox(13.5);
+        vboxLabels.setAlignment(Pos.TOP_CENTER);
+        VBox vboxFields = new VBox(5);
 
         for (Field field : dao.getClass().getDeclaredFields()) {
             String nombre = field.getName();
 
             if (nombre.toLowerCase().contains("id")) continue;
             Label label = new Label(capitalize(nombre) + ":");
+            label.setTextAlignment(TextAlignment.LEFT);
             TextField txt = new TextField();
 
             vboxLabels.getChildren().add(label);
@@ -72,7 +76,8 @@ public class VistaFormularioGenerica<T extends DAO<T>> extends Stage {
 
         root = new VBox(20, hbox);
         root.setAlignment(Pos.CENTER);
-        escena = new Scene(root, 400, 300);
+        root.setPadding(new Insets(10, 10, 10, 10));
+        escena = new Scene(root);
     }
 
     private void llenarCamposDesdeObjeto() {
@@ -105,7 +110,7 @@ public class VistaFormularioGenerica<T extends DAO<T>> extends Stage {
                     metodoSet.invoke(dao, texto);
             }
 
-            Method metodoId = dao.getClass().getMethod("getId" + dao.getClass().getSimpleName().replace("DAO", ""));
+            Method metodoId = dao.getClass().getMethod("getId" + dao.getSufijo());
             int id = (int) metodoId.invoke(dao);
 
             if (id > 0) {

@@ -1,18 +1,18 @@
 Base de Datos “restaurante”
 ENTIDADES
 
-XEmpleado (idEmp, puestoEmp, horario, telEmp, CURP, RFC, fechIngreso, nomEmp, NSS, SueldoEmp)
-XInsumo (idIns, descIns, nomIns, costoIns)
-XProvedor (idProv, nomProv, emailProv, telProv, direcProv, descProv)
+Empleado (idEmp, puestoEmp, horario, telEmp, CURP, RFC, fechIngreso, nomEmp, NSS, SueldoEmp)
+Insumo (idIns, descIns, nomIns, costoIns)
+Provedor (idProv, nomProv, emailProv, telProv, direcProv, descProv)
 XProducto(idProd, precio, costo, nomProd)
-XCategoria(idCat, nomCat, descCat)
+Categoria(idCat, nomCat, descCat)
 XOrden(idOrd(desc), total, fecha)
 XCliente(teclCte, idcte, emailCte, nomCte, direcCte)
-XMesa(idMesa, capacidad)
+Mesa(idMesa, capacidad)
 XReservacion(idReser(desc), hora, noInvitados, fecha)
 XPago (idPago, idOrd, monto, tipoPago, fechaPago)
-xTurno (idTurno, horaInicio, horaFin, descTurno)
-XUsuario (idUsuario, idEmp, username, passwordHash, rol)
+Turno (idTurno, horaInicio, horaFin, descTurno)
+TipoPago (idTipoPago, descripcion)
 
 
 RELACIONES
