@@ -6,8 +6,8 @@ import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.example.proyectotapbd.componentes.ButtonCell;
-import org.example.proyectotapbd.utils.modelos.DAO;
-import org.example.proyectotapbd.utils.modelos.Metodos;
+import org.example.proyectotapbd.modelos.DAO;
+import org.example.proyectotapbd.modelos.Metodos;
 
 import java.lang.reflect.Field;
 
@@ -16,7 +16,6 @@ public class VistaGenerica<T extends DAO<T>> extends Stage {
     private TableView<T> tableView;
     private VBox vbox, root;
     private Scene escena;
-    private ToolBar tlbMenu;
     private Button btnAgregar;
     private T dao;
 
@@ -27,6 +26,8 @@ public class VistaGenerica<T extends DAO<T>> extends Stage {
             this.setTitle("Listado de " + claseDAO.getSimpleName().replace("DAO", ""));
             this.setScene(escena);
             Metodos.configVista(this, root);
+            ToolBar tlb = (ToolBar) root.getChildren().get(0);
+            tlb.getItems().add( btnAgregar);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -44,8 +45,6 @@ public class VistaGenerica<T extends DAO<T>> extends Stage {
                 ex.printStackTrace();
             }
         });
-
-        tlbMenu = new ToolBar(btnAgregar);
 
         // Crear columnas dinámicas desde los campos
         Field[] fields = claseDAO.getDeclaredFields();
@@ -93,10 +92,8 @@ public class VistaGenerica<T extends DAO<T>> extends Stage {
             });
         }));
         tableView.getColumns().add(colEliminar);
-
         tableView.setItems(dao.SELECT());
-
-        vbox = new VBox(tlbMenu, tableView);
+        vbox = new VBox(tableView);
         root = new VBox(vbox);
         escena = new Scene(root);
     }

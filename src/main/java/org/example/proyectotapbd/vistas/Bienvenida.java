@@ -9,8 +9,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import org.example.proyectotapbd.utils.Query;
-import org.example.proyectotapbd.utils.modelos.ClienteDAO;
-import org.example.proyectotapbd.utils.modelos.Metodos;
+import org.example.proyectotapbd.modelos.ClienteDAO;
+import org.example.proyectotapbd.modelos.Metodos;
 
 public class Bienvenida extends Stage {
     VBox vb, root;

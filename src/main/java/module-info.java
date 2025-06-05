@@ -8,6 +8,6 @@ module org.example.proyectotapbd {
 
     opens org.example.proyectotapbd to javafx.fxml;
     exports org.example.proyectotapbd;
-    opens org.example.proyectotapbd.utils.modelos to javafx.base;
+    opens org.example.proyectotapbd.modelos to javafx.base;
 
 }

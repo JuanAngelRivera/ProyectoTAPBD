@@ -1,8 +1,9 @@
 package org.example.proyectotapbd.utils;
 
-import org.example.proyectotapbd.utils.modelos.ClienteDAO;
-import org.example.proyectotapbd.utils.modelos.Conexion;
-import org.example.proyectotapbd.utils.modelos.EmpleadoDAO;
+import org.example.proyectotapbd.modelos.ClienteDAO;
+import org.example.proyectotapbd.modelos.Conexion;
+import org.example.proyectotapbd.modelos.EmpleadoDAO;
+import org.example.proyectotapbd.modelos.TurnoDAO;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -60,8 +61,8 @@ public  class Query {
         return emp;
     }
 
-    public static List<EmpleadoDAO> getClavesEmpleados() {
-        String query = "SELECT nomEmp, RFC FROM empleado;";
+    public static List<EmpleadoDAO> getEmpleados() {
+        String query = "SELECT * FROM empleado;";
         List<EmpleadoDAO> claves = new ArrayList<>();  // Inicializada correctamente
 
         try (PreparedStatement ps = Conexion.connection.prepareStatement(query);
@@ -69,8 +70,16 @@ public  class Query {
 
             while (rs.next()) {
                 EmpleadoDAO emp = new EmpleadoDAO();
-                emp.setNomEmp(rs.getString("nomEmp"));
+                emp.setCurp(rs.getString("CURP"));
                 emp.setRfc(rs.getString("RFC"));
+                emp.setFechIngreso(rs.getString("fechIngreso"));
+                emp.setNss(rs.getString("NSS"));
+                emp.setNomEmp(rs.getString("nomEmp"));
+                emp.setPuestoEmp(rs.getString("puestoEmp"));
+                emp.setIdTurno(rs.getInt("idTurno"));
+                emp.setSueldoEmp(rs.getDouble("SueldoEmp"));
+                emp.setIdEmp(rs.getInt("idEmp"));
+                emp.setTelEmp(rs.getString("telEmp"));
                 claves.add(emp);
             }
 
@@ -81,4 +90,24 @@ public  class Query {
         return claves;
     }
 
+    public static TurnoDAO obtenerTurno(int idTurno){
+        TurnoDAO turnoDAO = null;
+        String query = "SELECT * FROM Turno WHERE idTurno = ?";
+        try(PreparedStatement ps = Conexion.connection.prepareStatement(query)){
+            ps.setInt(1, idTurno);
+            try(ResultSet rs = ps.executeQuery()){
+                if(rs.next())
+                {
+                    turnoDAO = new TurnoDAO();
+                    turnoDAO.setIdTurno(rs.getInt("idTurno"));
+                    turnoDAO.setHoraInicio(rs.getString("horaInicio"));
+                    turnoDAO.setHoraFin(rs.getString("horaFin"));
+                    turnoDAO.setDescripcion(rs.getString("descTurno"));
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return turnoDAO;
+    }
 }

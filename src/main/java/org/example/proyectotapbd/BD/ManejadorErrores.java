@@ -1,5 +1,7 @@
 package org.example.proyectotapbd.BD;
 
+import javafx.scene.control.Alert;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,7 +12,7 @@ public class ManejadorErrores {
         System.err.println("Error SQL: " + e.getMessage());
         String constraint = extraerNombreConstraint(e.getMessage());
         String descripcion = buscarDescripcionConstraint(constraint);
-        new VentanaError(descripcion != null ? descripcion : "Error en la base de datos: " + e.getMessage());
+        new Alert(Alert.AlertType.ERROR, descripcion != null ? descripcion : "Error en la base de datos: " + e.getMessage()).showAndWait();
     }
 
     public static String extraerNombreConstraint(String mensaje) {
@@ -31,7 +33,7 @@ public class ManejadorErrores {
         if (nombreConstraint == null) return null;
 
         String query = "SELECT descripcion FROM ErroresConstraint WHERE nombreConstraint = ?";
-        try (PreparedStatement stmt = org.example.proyectotapbd.utils.modelos.Conexion.connection.prepareStatement(query)) {
+        try (PreparedStatement stmt = org.example.proyectotapbd.modelos.Conexion.connection.prepareStatement(query)) {
             stmt.setString(1, nombreConstraint);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {

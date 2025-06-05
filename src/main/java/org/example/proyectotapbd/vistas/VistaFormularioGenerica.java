@@ -7,8 +7,8 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-import org.example.proyectotapbd.utils.modelos.DAO;
-import org.example.proyectotapbd.utils.modelos.Metodos;
+import org.example.proyectotapbd.modelos.DAO;
+import org.example.proyectotapbd.modelos.Metodos;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -122,12 +122,13 @@ public class VistaFormularioGenerica<T extends DAO<T>> extends Stage {
 
             tabla.setItems(dao.SELECT());
             tabla.refresh();
-            new VentanaError("Registro guardado correctamente");
+            new Alert(Alert.AlertType.INFORMATION, "Datos correctamente actualizados!").show();
             this.close();
 
         } catch (Exception e) {
             e.printStackTrace();
-            new VentanaError("Error al guardar el registro");
+            new Alert(Alert.AlertType.ERROR, "Hubo un error en el registro!\nIntenta de nuevo").show();
+
         }
     }
 

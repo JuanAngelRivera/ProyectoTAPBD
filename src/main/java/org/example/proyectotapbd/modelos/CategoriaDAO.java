@@ -1,4 +1,4 @@
-package org.example.proyectotapbd.utils.modelos;
+package org.example.proyectotapbd.modelos;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -68,9 +68,9 @@ public class CategoriaDAO extends DAO<CategoriaDAO> {
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
                 CategoriaDAO c = new CategoriaDAO();
-                c.setIdCategoria(rs.getInt("idCategoria"));
-                c.setNombreCategoria(rs.getString("nombreCategoria"));
-                c.setDescripcion(rs.getString("descripcion"));
+                c.setIdCategoria(rs.getInt("idCat"));
+                c.setNombreCategoria(rs.getString("nomCat"));
+                c.setDescripcion(rs.getString("descCat"));
                 lista.add(c);
             }
         } catch (Exception e) {

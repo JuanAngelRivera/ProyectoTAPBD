@@ -8,10 +8,11 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
+import org.example.proyectotapbd.componentes.TarjetaEmpleado;
 import org.example.proyectotapbd.utils.Claves;
 import org.example.proyectotapbd.utils.Query;
-import org.example.proyectotapbd.utils.modelos.EmpleadoDAO;
-import org.example.proyectotapbd.utils.modelos.Metodos;
+import org.example.proyectotapbd.modelos.EmpleadoDAO;
+import org.example.proyectotapbd.modelos.Metodos;
 
 import java.util.List;
 
@@ -22,65 +23,45 @@ public class Login extends Stage {
     VBox vbox, root;
     public void createUI(boolean admin){
 
-        Label lblAdmin = new Label("Introduce " + (admin ? "la contraseña" : "tu RFC" + " para\niniciar sesión como "
-                + (admin ? "Administrador" : "Empleado")));
-        TextField tfAdmin = new TextField();
-        ok = new Button("Ok");
-        ok.setOnAction(e -> {
+        Label lblAdmin = new Label(admin ? "Introduce la contraseña para entrar" : "Selecciona tu tarjeta de empleado para comenzar tu turno:");
+       if(admin)
+       {
+           TextField tfAdmin = new TextField();
+           ok = new Button("Ok");
+           ok.setOnAction(e -> {
 
-            if(admin && tfAdmin.getText().equals("adminContraseña")){//admin y contraseña correcta
-                new VistaAdmin();
-                Claves.accesoAdmin = true;
-                this.close();
-            }
-            else if(admin && !tfAdmin.getText().equals("adminContraseña")){//admin no contraseña correcta
-                Alert alerta = new Alert(Alert.AlertType.ERROR);
-                alerta.setTitle("Error");
-                alerta.setContentText("Contraseña incorrecta");
-                alerta.showAndWait().ifPresent(response -> {if(response == ButtonType.CLOSE){alerta.close();}});
-            }
-            else if(!admin) {//empleado contraseña correcta
-                EmpleadoDAO empleado = Query.sesionEmpleado(tfAdmin.getText());
-                System.out.println("BOTON OK NO ADMIN");
-                if (empleado != null) {
-                    new VistaEmpleado();
-                } else {
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Error");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Clave incorrecta");
-                    alert.showAndWait().ifPresent(response -> {
-                        if (response == ButtonType.CLOSE) {
-                            alert.close();
-                        }
-                    });
-                }
-            }
-        }
-        );
-        cancelar = new Button("Cancelar");
-        cancelar.setOnAction(e -> this.close());
-        hboxBotones = new HBox(10, ok, cancelar);
-        hboxBotones.setAlignment(Pos.CENTER);
-        vbox = new VBox(10, lblAdmin, tfAdmin, hboxBotones);
+                       if(admin && tfAdmin.getText().equals("adminContraseña")){//admin y contraseña correcta
+                           new VistaAdmin();
+                           Claves.accesoAdmin = true;
+                           this.close();
+                       }
+                       else if(admin && !tfAdmin.getText().equals("adminContraseña")){//admin no contraseña correcta
+                           Alert alerta = new Alert(Alert.AlertType.ERROR);
+                           alerta.setTitle("Error");
+                           alerta.setContentText("Contraseña incorrecta");
+                           alerta.showAndWait().ifPresent(response -> {if(response == ButtonType.CLOSE){alerta.close();}});
+                       }
+                   }
+           );
+           cancelar = new Button("Cancelar");
+           cancelar.setOnAction(e -> this.close());
+           hboxBotones = new HBox(10, ok, cancelar);
+           hboxBotones.setAlignment(Pos.CENTER);
+           vbox = new VBox(10, lblAdmin, tfAdmin, hboxBotones);
+       }
+       else
+       {
+           vbox = new VBox(10, lblAdmin);
+           List<EmpleadoDAO> claves = Query.getEmpleados();
+           if (claves != null) {
+               for(EmpleadoDAO clave : claves){
+                   TarjetaEmpleado tarjeta = new TarjetaEmpleado(clave);
+                   vbox.getChildren().add(tarjeta);
+               }
+           }
+       }
+
         vbox.setAlignment(Pos.CENTER);
-
-        if(!admin){
-            List<EmpleadoDAO> claves = Query.getClavesEmpleados();
-
-            if (claves != null) {
-                for(EmpleadoDAO clave : claves){
-                    Label label = new Label(clave.getNomEmp() + ": ");
-                    label.setAlignment(Pos.CENTER);
-                    label.setTextAlignment(TextAlignment.LEFT);
-                    TextField tf = new TextField(clave.getRfc());
-                    HBox hboxEmp = new HBox(5, label, tf);
-                    tf.setEditable(false);
-                    vbox.getChildren().add(hboxEmp);
-                }
-            }
-        }
-
         hbox = new HBox(vbox);
         hbox.setAlignment(Pos.CENTER);
         hbox.setPadding(new Insets(10));

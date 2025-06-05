@@ -4,12 +4,21 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import org.example.proyectotapbd.utils.modelos.Metodos;
+import org.example.proyectotapbd.modelos.EmpleadoDAO;
+import org.example.proyectotapbd.modelos.Metodos;
 
 public class VistaEmpleado extends Stage {
-    public VistaEmpleado() {
-        Scene scene = new Scene(new Button("INTERFAZ EMPLEADO"));
+    VBox root, vbox;
+    Scene scene;
+    void createUI(EmpleadoDAO empleado)
+    {
+        vbox = new VBox(new Button("INTERFAZ EMPLEADO: " + empleado.getNomEmp()));
+        root = new VBox(vbox);
+        scene = new Scene(root);
+    }
+    public VistaEmpleado(EmpleadoDAO empleado) {
+        createUI(empleado);
         this.setScene(scene);
-        Metodos.configVista(this, new VBox());
+        Metodos.configVista(this, root);
     }
 }

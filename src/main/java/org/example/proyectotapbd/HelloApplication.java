@@ -4,7 +4,7 @@ import javafx.geometry.Insets;
 import javafx.scene.control.ToolBar;
 import javafx.stage.StageStyle;
 import org.example.proyectotapbd.vistas.*;
-import org.example.proyectotapbd.utils.modelos.*;
+import org.example.proyectotapbd.modelos.*;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;

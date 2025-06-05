@@ -1,9 +1,10 @@
 package org.example.proyectotapbd.vistas;
 
+import javafx.geometry.Insets;
 import javafx.scene.control.ToolBar;
 import org.example.proyectotapbd.utils.Claves;
-import org.example.proyectotapbd.utils.modelos.*;
-import org.example.proyectotapbd.utils.modelos.ClienteDAO;
+import org.example.proyectotapbd.modelos.*;
+import org.example.proyectotapbd.modelos.ClienteDAO;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -59,9 +60,14 @@ public class VistaAdmin extends Stage
         grid.add(btnIngredientes, 2, 1);
         grid.add(btnContiene, 2, 2);
         grid.add(btnSeHace, 2, 3);
-
+        grid.setAlignment(Pos.CENTER);
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setGridLinesVisible(true);
+        grid.setPadding(new Insets(10));
         VBox vbox = new VBox(grid);
         vbox.setAlignment(Pos.CENTER);
+        vbox.setPadding(new Insets(10));
         root = new VBox(vbox);
         scene = new Scene(root, 800, 600);
     }
