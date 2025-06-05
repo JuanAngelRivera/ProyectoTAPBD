@@ -78,6 +78,11 @@ public class SeHaceDAO extends DAO<SeHaceDAO> {
     }
 
     @Override
+    public String getSufijo() {
+        return "Mesa Reser";
+    }
+
+    @Override
     public Class<SeHaceDAO> getModelClass() {
         return SeHaceDAO.class;
     }

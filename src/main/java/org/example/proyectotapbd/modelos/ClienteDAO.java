@@ -22,6 +22,11 @@ public class ClienteDAO extends DAO<ClienteDAO> {
     public String getEmailCte() { return emailCte; }
     public void setEmailCte(String emailCte) { this.emailCte = emailCte; }
 
+    @Override
+    public String getSufijo() {
+        return "Cte";
+    }
+
     public void INSERT() {
         String query = "INSERT INTO cliente(nomCte, telCte, direccion, emailCte) VALUES (?, ?, ?, ?)";
 

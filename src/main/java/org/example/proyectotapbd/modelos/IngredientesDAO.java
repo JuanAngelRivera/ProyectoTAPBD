@@ -73,6 +73,12 @@ public class IngredientesDAO extends DAO<IngredientesDAO> {
         }
         return lista;
     }
+
+    @Override
+    public String getSufijo() {
+        return "Ins Prod";
+    }
+
     @Override
     public Class<IngredientesDAO> getModelClass() {
         return IngredientesDAO.class;

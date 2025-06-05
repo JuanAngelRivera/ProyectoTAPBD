@@ -82,6 +82,11 @@ public class ReservacionDAO extends DAO<ReservacionDAO> {
     }
 
     @Override
+    public String getSufijo() {
+        return "Res";
+    }
+
+    @Override
     public Class<ReservacionDAO> getModelClass() {
         return ReservacionDAO.class;
     }

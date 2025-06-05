@@ -6,6 +6,7 @@ import java.sql.SQLException;
 
 public abstract class DAO <T>
 {
+    public abstract String getSufijo();
     public abstract void INSERT();
     public abstract void UPDATE();
     public abstract void DELETE();

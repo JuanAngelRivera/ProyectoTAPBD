@@ -75,6 +75,11 @@ public class ProductoDAO extends DAO<ProductoDAO> {
     }
 
     @Override
+    public String getSufijo() {
+        return "Prod";
+    }
+
+    @Override
     public Class<ProductoDAO> getModelClass() {
         return ProductoDAO.class;
     }

@@ -31,18 +31,6 @@ CREATE TABLE Empleado (
                           CONSTRAINT fk_empleado_turno FOREIGN KEY (idTurno) REFERENCES Turno(idTurno)
 );
 
--- Tabla Usuario
-CREATE TABLE Usuario (
-                         idUsuario INT AUTO_INCREMENT,
-                         idEmp INT,
-                         username VARCHAR(50),
-                         passwordHash VARCHAR(255),
-                         rol VARCHAR(30),
-                         CONSTRAINT pk_usuario PRIMARY KEY (idUsuario),
-                         CONSTRAINT uq_usuario_username UNIQUE (username),
-                         CONSTRAINT fk_usuario_empleado FOREIGN KEY (idEmp) REFERENCES Empleado(idEmp)
-);
-
 -- Tabla Proveedor
 CREATE TABLE Proveedor (
                            idProv INT AUTO_INCREMENT,
@@ -131,13 +119,22 @@ CREATE TABLE Pago (
                       idPago INT AUTO_INCREMENT,
                       idOrd INT,
                       monto DECIMAL(10,2),
-                      tipoPago VARCHAR(50),
+                      idTipoPago INT,
                       fechaPago DATETIME,
                       CONSTRAINT pk_pago PRIMARY KEY (idPago),
-                      CONSTRAINT fk_pago_orden FOREIGN KEY (idOrd) REFERENCES Orden(idOrd)
+                      CONSTRAINT fk_pago_orden FOREIGN KEY (idOrd) REFERENCES Orden(idOrd),
+                      CONSTRAINT fk_tipo_pago FOREIGN KEY (idTipoPago) REFERENCES TipoPago(idTipoPago)
 );
 
+-- Tabla ErroresConstraint
 CREATE TABLE ErroresConstraint (
                                    nombreConstraint VARCHAR(100) PRIMARY KEY,
                                    descripcion TEXT
+);
+
+-- Tabla TipoPago
+CREATE TABLE TipoPago(
+                    idTipoPago INT AUTO_INCREMENT,
+                    descripcion TEXT,
+                    CONSTRAINT pk_tipo_pago PRIMARY KEY (idTipoPago)
 );

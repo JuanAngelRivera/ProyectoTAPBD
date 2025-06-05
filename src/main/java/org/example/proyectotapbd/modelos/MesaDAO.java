@@ -75,6 +75,11 @@ public class MesaDAO extends DAO<MesaDAO> {
     }
 
     @Override
+    public String getSufijo() {
+        return "Mesa";
+    }
+
+    @Override
     public Class<MesaDAO> getModelClass() {
         return MesaDAO.class;
     }

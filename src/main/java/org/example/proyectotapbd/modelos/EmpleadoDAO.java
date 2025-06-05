@@ -115,6 +115,11 @@ public class EmpleadoDAO extends DAO<EmpleadoDAO> {
     }
 
     @Override
+    public String getSufijo() {
+        return "Emp";
+    }
+
+    @Override
     public Class<EmpleadoDAO> getModelClass() {
         return EmpleadoDAO.class;
     }

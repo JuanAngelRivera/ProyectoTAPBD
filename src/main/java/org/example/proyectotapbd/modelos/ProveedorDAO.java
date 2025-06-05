@@ -68,6 +68,11 @@ public class ProveedorDAO extends DAO<ProveedorDAO> {
     }
 
     @Override
+    public String getSufijo() {
+        return "Prov";
+    }
+
+    @Override
     public Class<ProveedorDAO> getModelClass() {
         return ProveedorDAO.class;
     }

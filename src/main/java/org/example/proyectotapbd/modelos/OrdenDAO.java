@@ -75,6 +75,11 @@ public class OrdenDAO extends DAO<OrdenDAO> {
     }
 
     @Override
+    public String getSufijo() {
+        return "Orden Mesa";
+    }
+
+    @Override
     public Class<OrdenDAO> getModelClass() {
         return OrdenDAO.class;
     }

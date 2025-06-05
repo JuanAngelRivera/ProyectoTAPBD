@@ -37,6 +37,11 @@ public class ContieneDAO extends DAO<ContieneDAO> {
     }
 
     @Override
+    public String getSufijo() {
+        return "Ord Prod";
+    }
+
+    @Override
     public void INSERT() {
         String query = "INSERT INTO contiene(idOrd, idProd, cantidad) VALUES(" +
                 idOrd + ", " + idProd + ", " + cantidad + ");";

@@ -46,8 +46,7 @@ public class VistaFormularioGenerica<T extends DAO<T>> extends Stage {
         for (Field field : dao.getClass().getDeclaredFields()) {
             String nombre = field.getName();
 
-            if (nombre.toLowerCase().contains("id")) continue; // Ignorar campos ID
-
+            if (nombre.toLowerCase().contains("id")) continue;
             Label label = new Label(capitalize(nombre) + ":");
             TextField txt = new TextField();
 

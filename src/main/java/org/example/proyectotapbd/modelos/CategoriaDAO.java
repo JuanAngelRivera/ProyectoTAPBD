@@ -21,6 +21,11 @@ public class CategoriaDAO extends DAO<CategoriaDAO> {
     public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
 
     @Override
+    public String getSufijo() {
+        return "Categoria";
+    }
+
+    @Override
     public void INSERT() {
         String query = "INSERT INTO categoria(nombreCategoria, descripcion) VALUES('" + nombreCategoria + "', '" + descripcion + "');";
         try {

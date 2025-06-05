@@ -84,6 +84,11 @@ public class PagoDAO extends DAO<PagoDAO> {
     }
 
     @Override
+    public String getSufijo() {
+        return "Pago Ord";
+    }
+
+    @Override
     public Class<PagoDAO> getModelClass() {
         return PagoDAO.class;
     }

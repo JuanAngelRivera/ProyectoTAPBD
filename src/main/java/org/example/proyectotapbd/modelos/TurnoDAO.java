@@ -99,6 +99,11 @@ public class TurnoDAO extends DAO<TurnoDAO> {
     }
 
     @Override
+    public String getSufijo() {
+        return "Turno";
+    }
+
+    @Override
     public Class<TurnoDAO> getModelClass() {
         return TurnoDAO.class;
     }

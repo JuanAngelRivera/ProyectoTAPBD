@@ -75,6 +75,11 @@ public class InsumoDAO extends DAO<InsumoDAO> {
     }
 
     @Override
+    public String getSufijo() {
+        return "Ins";
+    }
+
+    @Override
     public Class<InsumoDAO> getModelClass() {
         return InsumoDAO.class;
     }

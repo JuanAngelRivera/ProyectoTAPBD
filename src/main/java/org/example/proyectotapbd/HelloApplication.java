@@ -19,35 +19,33 @@ public class HelloApplication extends Application
     private void create_ui()
     {
         Button btnEmpleado = new Button("Empleado");
-        //btnEmpleado.setOnAction(actionEvent -> Empleado());
+        btnEmpleado.setOnAction(actionEvent -> new VistaGenerica<>(EmpleadoDAO.class));
         Button btnInsumo = new Button("Insumo");
-        btnInsumo.setOnAction(actionEvent -> {});
+        btnInsumo.setOnAction(actionEvent -> new VistaGenerica<>(InsumoDAO.class));
         Button btnProvedor = new Button("Provedor");
-        btnProvedor.setOnAction(actionEvent -> {});
+        btnProvedor.setOnAction(actionEvent -> new VistaGenerica<>(ProveedorDAO.class));
         Button btnProducto = new Button("Producto");
-        btnProducto.setOnAction(actionEvent -> {});
+        btnProducto.setOnAction(actionEvent -> new VistaGenerica<>(ProductoDAO.class));
         Button btnCategoria = new Button("Categoria");
-        btnCategoria.setOnAction(actionEvent -> {});
+        btnCategoria.setOnAction(actionEvent -> new VistaGenerica<>(CategoriaDAO.class));
         Button btnOrden = new Button("Orden");
-        btnOrden.setOnAction(actionEvent -> {});
+        btnOrden.setOnAction(actionEvent -> new VistaGenerica<>(OrdenDAO.class));
         Button btnCliente = new Button("Cliente");
         btnCliente.setOnAction(actionEvent -> new VistaGenerica<>(ClienteDAO.class));
         Button btnMesa = new Button("Mesa");
-        btnMesa.setOnAction(actionEvent -> {});
         Button btnReservacion = new Button("Reservacion");
-        btnReservacion.setOnAction(actionEvent -> {});
         Button btnPago = new Button("Pago");
-        btnPago.setOnAction(actionEvent -> {});
+        btnPago.setOnAction(actionEvent -> new VistaGenerica<>(PagoDAO.class));
         Button btnTurno = new Button("Turno");
-        btnTurno.setOnAction(actionEvent -> {});
+        btnTurno.setOnAction(actionEvent -> new VistaGenerica<>(TurnoDAO.class));
         Button btnUsuario = new Button("Usuario");
-        btnUsuario.setOnAction(actionEvent -> {});
+        btnUsuario.setOnAction(actionEvent -> new VistaGenerica<>(UsuarioDAO.class));
         Button btnIngredientes = new Button("Ingredientes");
-        btnIngredientes.setOnAction(actionEvent -> {});
+        btnIngredientes.setOnAction(actionEvent -> new VistaGenerica<>(IngredientesDAO.class));
         Button btnContiene = new Button("Contiene");
-        btnContiene.setOnAction(actionEvent -> {});
-        Button btnHace = new Button("Hace");
-        btnHace.setOnAction(actionEvent -> {});
+        btnContiene.setOnAction(actionEvent -> new VistaGenerica<>(ContieneDAO.class));
+        Button btnSeHace = new Button("Hace");
+        btnSeHace.setOnAction(actionEvent -> new VistaGenerica<>(SeHaceDAO.class));
 
         GridPane grid = new GridPane();
         grid.add(btnEmpleado, 0, 0);
@@ -64,7 +62,7 @@ public class HelloApplication extends Application
         grid.add(btnUsuario, 2, 1);
         grid.add(btnIngredientes, 2, 2);
         grid.add(btnContiene, 2, 3);
-        grid.add(btnHace, 2, 4);
+        grid.add(btnSeHace, 2, 4);
 
         VBox vbox = new VBox(grid);
         vbox.setAlignment(Pos.CENTER);
