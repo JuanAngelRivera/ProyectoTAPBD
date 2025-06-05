@@ -67,7 +67,7 @@ public class ListaClientes extends Stage
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Mensaje del sistema");
             alert.setContentText("Deseas eliminar el registro seleccionado?");
-            Optional<ButtonType> opcion =alert.showAndWait();
+            Optional<ButtonType> opcion = alert.showAndWait();
             if(opcion.get() == ButtonType.OK)
                 objC.DELETE();
             tbvClientes.setItems(objC.SELECT());

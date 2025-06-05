@@ -1,27 +1,30 @@
 package org.example.proyectotapbd.vistas;
 
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.ToolBar;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.VBox;
-import org.example.proyectotapbd.modelos.DAO;
-import javafx.stage.Stage;
+import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import org.example.proyectotapbd.componentes.ButtonCell;
+import org.example.proyectotapbd.modelos.DAO;
 
-import java.lang.reflect.Method;
+import java.lang.reflect.Field;
+import java.util.List;
 
-public class VistaGenerica<T> extends Stage {
+public class VistaGenerica<T extends DAO<T>> extends Stage {
 
     private TableView<T> tableView;
+    private VBox vbox;
     private Scene escena;
+    private ToolBar tlbMenu;
+    private Button btnAgregar;
+    private T dao;
 
-    public VistaGenerica(Class<? extends DAO<T>> claseDAO) {
+    public VistaGenerica(Class<T> claseDAO) {
         try {
-            DAO<T> dao = claseDAO.getDeclaredConstructor().newInstance();
-            CrearUI(dao);
-            this.setTitle("Listado de " + claseDAO.getSimpleName());
+            dao = claseDAO.getDeclaredConstructor().newInstance();
+            crearUI(claseDAO);
+            this.setTitle("Listado de " + claseDAO.getSimpleName().replace("DAO", ""));
             this.setScene(escena);
             this.show();
         } catch (Exception e) {
@@ -29,27 +32,71 @@ public class VistaGenerica<T> extends Stage {
         }
     }
 
-    private void CrearUI(DAO<T> dao) {
+    private void crearUI(Class<T> claseDAO) {
         tableView = new TableView<>();
-        crearColumnasDinamicamente(dao.getModelClass());
-        tableView.setItems(dao.SELECT());
-        VBox vbox = new VBox(new ToolBar(), tableView);
-        escena = new Scene(vbox, 800, 600);
-    }
-
-    private void crearColumnasDinamicamente(Class<T> modeloClass) {
-        for (Method method : modeloClass.getMethods()) {
-            if (method.getName().startsWith("get") &&
-                    method.getParameterCount() == 0 &&
-                    !method.getName().equals("getClass")) {
-
-                String property = method.getName().substring(3);
-                property = property.substring(0, 1).toLowerCase() + property.substring(1);
-
-                TableColumn<T, String> column = new TableColumn<>(property);
-                column.setCellValueFactory(new PropertyValueFactory<>(property));
-                tableView.getColumns().add(column);
+        btnAgregar = new Button("Agregar");
+        btnAgregar.setOnAction(e -> {
+            try {
+                new VistaFormularioGenerica<>(tableView, claseDAO.getDeclaredConstructor().newInstance());
+                tableView.setItems(dao.SELECT());
+                tableView.refresh();
+            } catch (Exception ex) {
+                ex.printStackTrace();
             }
+        });
+
+        tlbMenu = new ToolBar(btnAgregar);
+
+        // Crear columnas dinámicas desde los campos
+        Field[] fields = claseDAO.getDeclaredFields();
+        for (Field field : fields) {
+            field.setAccessible(true);
+            TableColumn<T, String> column = new TableColumn<>(field.getName());
+            column.setCellValueFactory(data -> {
+                try {
+                    Object value = field.get(data.getValue());
+                    return new ReadOnlyStringWrapper(value != null ? value.toString() : "");
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                    return new ReadOnlyStringWrapper("");
+                }
+            });
+            tableView.getColumns().add(column);
         }
+
+        // Botón Editar
+        TableColumn<T, String> colEditar = new TableColumn<>("Editar");
+        colEditar.setCellFactory(col -> new ButtonCell<>("Editar", (tbv, obj) -> {
+            try {
+                new VistaFormularioGenerica<>(tbv, obj);
+                tableView.setItems(dao.SELECT());
+                tableView.refresh();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }));
+        tableView.getColumns().add(colEditar);
+
+        // Botón Eliminar
+        TableColumn<T, String> colEliminar = new TableColumn<>("Eliminar");
+        colEliminar.setCellFactory(col -> new ButtonCell<>("Eliminar", (tbv, obj) -> {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmación");
+            alert.setHeaderText(null);
+            alert.setContentText("¿Deseas eliminar el registro seleccionado?");
+            alert.showAndWait().ifPresent(response -> {
+                if (response == ButtonType.OK) {
+                    obj.DELETE();
+                    tableView.setItems(dao.SELECT());
+                    tableView.refresh();
+                }
+            });
+        }));
+        tableView.getColumns().add(colEliminar);
+
+        tableView.setItems(dao.SELECT());
+
+        vbox = new VBox(tlbMenu, tableView);
+        escena = new Scene(vbox, 800, 600);
     }
 }
