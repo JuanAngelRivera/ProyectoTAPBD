@@ -10,10 +10,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 public class ControladorProductos extends HBox {
+    public Label cantidad;
     public ControladorProductos() {
         Button btnMenos = new Button("-");
         Button btnMas  = new Button("+");
-        Label cantidad = new Label("0");
+        cantidad = new Label("0");
         btnMenos.setOnAction(e -> {
             if(Integer.parseInt(cantidad.getText()) > 0){
                 System.out.println("DEBIO REDUCIRSE");

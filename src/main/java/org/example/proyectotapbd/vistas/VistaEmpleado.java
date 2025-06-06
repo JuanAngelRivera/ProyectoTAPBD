@@ -3,10 +3,7 @@ package org.example.proyectotapbd.vistas;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -17,24 +14,41 @@ import org.example.proyectotapbd.componentes.TarjetaProducto;
 import org.example.proyectotapbd.modelos.*;
 import org.example.proyectotapbd.utils.Query;
 
-import java.sql.SQLOutput;
+import java.util.ArrayList;
 import java.util.List;
 
 public class VistaEmpleado extends Stage {
     VBox root;
     Scene scene;
+    double subtotal;
+    List<ProductoDAO> productos;
+    List<Integer> cantidades;
+    ProductoDAO productoSeleccionado;
+    ClienteDAO clienteSeleccionado;
+    HBox hboxOrden;
+    MesaDAO mesaSeleccionado;
+
     void createUI(EmpleadoDAO empleado)
     {
+        subtotal = 0.0;
+        productos = new ArrayList<>();
+        cantidades = new ArrayList<>();
+        productoSeleccionado = null;
+        mesaSeleccionado = null;
         HBox hboxEmpleado = empleado(empleado);
         HBox hboxMesas = mesas();
         HBox hboxClientes = cliente();
         VBox vboxMesasCliente = new VBox(hboxMesas, hboxClientes);
         HBox hboxProductos = productos();
         HBox hboxIngredientes = ingredientes();
+        hboxOrden = orden();
         HBox hboxCategorias = categorias(hboxProductos, hboxIngredientes);
-        VBox vboxProductosAbajo = new VBox(hboxProductos, hboxIngredientes, hboxCategorias);
+        VBox vboxCategoriaIngredientes = new VBox(hboxIngredientes, hboxCategorias);
+        HBox hboxOrdenIzquierda = new HBox(vboxCategoriaIngredientes, hboxOrden);
+        VBox vboxProductosAbajo = new VBox(hboxProductos, hboxOrdenIzquierda);
         HBox hboxMesaClienteDerecha = new HBox(vboxMesasCliente, vboxProductosAbajo);
         VBox vboxEmpAbajo = new VBox(hboxEmpleado, hboxMesaClienteDerecha);
+
         vboxEmpAbajo.setPadding(new Insets(10));
         root = new VBox(vboxEmpAbajo);
         scene = new Scene(root);
@@ -58,17 +72,31 @@ public class VistaEmpleado extends Stage {
         grid.setHgap(10);
         grid.setVgap(10);
         int indice = 0;
-
+        Label seleccionada = new Label("Mesa seleccionada: ");
+        Label capacidad;
+        Label ocupada;
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 if(indice < mesas.size()){
                     Button b = new Button(mesas.get(indice).getIdMesa() + "");
+                    int finalIndice = indice;
+                    b.setOnAction(e -> {
+                        mesaSeleccionado = mesas.get(finalIndice);
+                        vboxMesas.getChildren().setAll(mesas().getChildren().get(0));
+                    });
                     grid.add(b, j, i);
                     indice++;
                 }
             }
         }
-        vboxMesas.getChildren().add(grid);
+        vboxMesas.getChildren().addAll(grid, seleccionada);
+        if(mesaSeleccionado != null)
+        {
+            ocupada = new Label("Mesa " + (mesaSeleccionado.getOcupada() ? "ocupada" : "libre"));
+            capacidad = new Label("Capacidad: " + mesaSeleccionado.getCapacidad());
+            seleccionada.setText("Mesa seleccionada: " + mesaSeleccionado.getIdMesa());
+            vboxMesas.getChildren().addAll(capacidad, ocupada);
+        }
         vboxMesas.setAlignment(Pos.CENTER);
         HBox hbox = new HBox(vboxMesas);
         hbox.setAlignment(Pos.CENTER);
@@ -96,6 +124,7 @@ public class VistaEmpleado extends Stage {
                       Label lblTel = new Label(cliente.getTelCte());
                       Label lblEmail = new Label(cliente.getEmailCte());
                       vbox.getChildren().addAll(lblNom, lblTel, lblEmail);
+                      clienteSeleccionado = cliente;
                   }
           }
       });
@@ -122,16 +151,45 @@ public class VistaEmpleado extends Stage {
                     Button b = new Button(listaCategorias.get(indice).getNombreCategoria());
                     int finalIndice = indice;
                     b.setOnAction(event -> {
+                        productoSeleccionado = null;
                         hboxProductos.getChildren().clear();
                         hboxProductos.getChildren().add(new Label("Productos para categoría: " + listaCategorias.get(finalIndice).getNombreCategoria()));
-                        hboxProductos.getChildren().add(new ControladorProductos());
+                        ControladorProductos controlador = new ControladorProductos();
+                        hboxProductos.getChildren().add(controlador);
+                        Button guardarPedido = new Button("Guardar");
+                        guardarPedido.setOnAction(e -> {
+                            if(productoSeleccionado == null ||  controlador.cantidad.getText().equals("0")){
+                                Alert alerta = new Alert(Alert.AlertType.ERROR, "Selecciona un producto primero!");
+                                alerta.showAndWait();
+                            }
+                            else {
+                                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Confirma con el cliente que" +
+                                        " el pedido es correcto!");
+                                alert.showAndWait().ifPresent(response -> {
+                                    if(response == ButtonType.OK){
+                                        int numero = Integer.parseInt(controlador.cantidad.getText());
+                                        System.out.println("Cantidad: " + controlador.cantidad.getText());
+                                        productos.add(productoSeleccionado);
+                                        System.out.println("Producto: " + productoSeleccionado.getNomProd());
+                                        cantidades.add(numero);
+                                        subtotal = subtotal + productoSeleccionado.getPrecio() * numero;
+                                        System.out.println("Subtotal: " + productoSeleccionado.getPrecio() * numero);
+                                        productoSeleccionado = null;
+                                        hboxOrden.getChildren().clear();
+                                        hboxOrden.getChildren().setAll(orden().getChildren());
+                                    }
+                                });
+                            }
+                        });
                         System.out.println("SE PRESIONÓ EL BOTÓN");
                         List<ProductoDAO> listaProductos = Query.obtenerProductosPorCategoria(listaCategorias.get(finalIndice).getIdCategoria());
                         for (ProductoDAO producto : listaProductos) {
                             List<InsumoDAO> listaIngredientes = Query.obtenerIngredientes(producto.getIdProd());
                             TarjetaProducto prod = new TarjetaProducto(producto);
-                            hboxProductos.getChildren().add(prod);
+                            hboxProductos.getChildren().addAll(prod);
                             prod.setOnMouseClicked(e -> {
+                                controlador.cantidad.setText("0");
+                                productoSeleccionado = producto;
                                 hboxIngredientes.getChildren().clear();
                                 VBox vboxIngredientes = new VBox(new Label("Ingredientes para " + producto.getNomProd()));
                                 for (InsumoDAO insumo : listaIngredientes) {
@@ -147,6 +205,7 @@ public class VistaEmpleado extends Stage {
                                 hboxIngredientes.getChildren().addAll(vboxIngredientes);
                             });
                         }
+                        hboxProductos.getChildren().addAll(guardarPedido);
                     });
                     grid.add(b, j, i);
                     indice++;
@@ -161,6 +220,53 @@ public class VistaEmpleado extends Stage {
     {
         return new HBox(10, new Label("Ingredientes: "));
     }
+
+    public HBox orden(){
+        Label titulo = new Label("Orden");
+        GridPane grid = new GridPane();
+        grid.setAlignment(Pos.CENTER);
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(10, 10, 10, 10));
+        grid.add(new Label("Cantidad"), 0, 0);
+        grid.add(new Label("Producto"), 1, 0);
+        grid.add(new Label("Subtotal"), 2, 0);
+        int indice = 1;
+        double total = 0;
+        VBox hboxbtntotal = new VBox();
+        for(ProductoDAO producto : productos){
+            grid.add(new Label(cantidades.get(indice - 1).toString()), 0, indice);
+            grid.add(new Label(producto.getNomProd()), 1, indice);
+            grid.add(new Label("$" + (cantidades.get(indice - 1) * producto.getPrecio())), 2, indice);
+            total = total + producto.getPrecio() * cantidades.get(indice - 1);
+            indice++;
+        }
+        Label totalLabel = new Label("Total: $" + total);
+        Button btnOrden = new Button("Procesar orden");
+        btnOrden.setOnAction(e -> {
+            if(clienteSeleccionado == null){
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Verifica que hayas puesto el Cliente");
+                alert.showAndWait();
+                return;
+            }
+            if(mesaSeleccionado == null){
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Verifica que hayas puesto la Mesa");
+                alert.showAndWait();
+                return;
+            }
+            if(productos.isEmpty()){
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Verifica que hayas añadido los productos");
+                alert.showAndWait();
+                return;
+            }
+
+        });
+        hboxbtntotal.getChildren().addAll(totalLabel, btnOrden);
+        hboxbtntotal.setAlignment(Pos.BOTTOM_CENTER);
+        VBox general = new VBox(titulo, grid, hboxbtntotal);
+        return new HBox(general);
+    }
+
     public VistaEmpleado(EmpleadoDAO empleado) {
         createUI(empleado);
         this.setScene(scene);

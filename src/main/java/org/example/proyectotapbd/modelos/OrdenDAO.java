@@ -6,13 +6,16 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 
 public class OrdenDAO extends DAO<OrdenDAO> {
-    private int idOrden;
-    private int idMesa;
+    private int idOrd;
+    private double total;
     private String fecha;
-    private String estado;
+    private int idEmp;
+    private int idCte;
+    private int idMesa;
 
-    public int getIdOrden() { return idOrden; }
-    public void setIdOrden(int idOrden) { this.idOrden = idOrden; }
+
+    public int getIdOrd() { return idOrd; }
+    public void setIdOrd(int idOrd) { this.idOrd = idOrd; }
 
     public int getIdMesa() { return idMesa; }
     public void setIdMesa(int idMesa) { this.idMesa = idMesa; }
@@ -20,11 +23,33 @@ public class OrdenDAO extends DAO<OrdenDAO> {
     public String getFecha() { return fecha; }
     public void setFecha(String fecha) { this.fecha = fecha; }
 
-    public String getEstado() { return estado; }
-    public void setEstado(String estado) { this.estado = estado; }
+
+    public double getTotal() {
+        return total;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
+    }
+
+    public int getIdEmp() {
+        return idEmp;
+    }
+
+    public void setIdEmp(int idEmp) {
+        this.idEmp = idEmp;
+    }
+
+    public int getIdCte() {
+        return idCte;
+    }
+
+    public void setIdCte(int idCte) {
+        this.idCte = idCte;
+    }
 
     public void INSERT() {
-        String query = "INSERT INTO orden(idMesa, fecha, estado) VALUES(" + idMesa + ", '" + fecha + "', '" + estado + "');";
+        String query = "INSERT INTO orden(idOrd, total, fecha, idEmp, idCte, idMesa) VALUES(" + idOrd + ", '" + total + "', '" + fecha + "','" + idEmp + "','" + idCte + "','" + idMesa + "')";
         try {
             Statement stmt = Conexion.connection.createStatement();
             stmt.executeUpdate(query);
@@ -34,8 +59,8 @@ public class OrdenDAO extends DAO<OrdenDAO> {
     }
 
     public void UPDATE() {
-        String query = "UPDATE orden SET idMesa = " + idMesa + ", fecha = '" + fecha + "', estado = '" + estado +
-                "' WHERE idOrden = " + idOrden + ";";
+        String query = "UPDATE orden SET idOrd = " + idOrd + ", total = '" + total + "', fecha = '" + fecha + "', idEmp = " + idEmp + "', idCte = '" + idCte + "', idMesa = " + idMesa +
+                "' WHERE idOrden = " + idOrd + ";";
         try {
             Statement stmt = Conexion.connection.createStatement();
             stmt.executeUpdate(query);
@@ -45,7 +70,7 @@ public class OrdenDAO extends DAO<OrdenDAO> {
     }
 
     public void DELETE() {
-        String query = "DELETE FROM orden WHERE idOrden = " + idOrden + ";";
+        String query = "DELETE FROM orden WHERE idOrden = " + idOrd + ";";
         try {
             Statement stmt = Conexion.connection.createStatement();
             stmt.executeUpdate(query);
@@ -62,10 +87,12 @@ public class OrdenDAO extends DAO<OrdenDAO> {
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
                 OrdenDAO o = new OrdenDAO();
-                o.setIdOrden(rs.getInt("idOrden"));
-                o.setIdMesa(rs.getInt("idMesa"));
+                o.setIdOrd(rs.getInt("idOrden"));
+                o.setTotal(rs.getDouble("total"));
                 o.setFecha(rs.getString("fecha"));
-                o.setEstado(rs.getString("estado"));
+                o.setIdEmp(rs.getInt("idEmp"));
+                o.setIdCte(rs.getInt("idCte"));
+                o.setIdMesa(rs.getInt("idMesa"));
                 lista.add(o);
             }
         } catch (Exception e) {
