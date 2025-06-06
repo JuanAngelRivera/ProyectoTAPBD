@@ -27,6 +27,8 @@ public class Login extends Stage {
        if(admin)
        {
            TextField tfAdmin = new TextField();
+           TextField ejemplo = new TextField("'adminContraseña'");
+           ejemplo.setEditable(false);
            ok = new Button("Ok");
            ok.setOnAction(e -> {
 
@@ -47,7 +49,7 @@ public class Login extends Stage {
            cancelar.setOnAction(e -> this.close());
            hboxBotones = new HBox(10, ok, cancelar);
            hboxBotones.setAlignment(Pos.CENTER);
-           vbox = new VBox(10, lblAdmin, tfAdmin, hboxBotones);
+           vbox = new VBox(10, lblAdmin, tfAdmin, hboxBotones, ejemplo);
        }
        else
        {

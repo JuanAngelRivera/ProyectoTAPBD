@@ -31,7 +31,9 @@ public class HelloApplication extends Application
 
         root = new VBox(toolbar);
         root.setPadding(new Insets(10));
+        root.setId("root");
         scene = new Scene(root, 800, 600);
+        scene.getStylesheets().add(getClass().getResource("/styles/main.css").toExternalForm());
     }
 
     @Override

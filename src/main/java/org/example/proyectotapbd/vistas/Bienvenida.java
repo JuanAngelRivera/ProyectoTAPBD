@@ -42,6 +42,8 @@ public class Bienvenida extends Stage {
             label.setTextAlignment(TextAlignment.CENTER);
             TextField tf = new TextField();
             Button iniciarSesion = new Button("Iniciar sesión");
+            TextField ejemplo = new TextField("'juangelrt24@gmail.com'");
+            ejemplo.setEditable(false);
             iniciarSesion.setOnAction(e -> {
                 ClienteDAO cliente = Query.sesionCliente(tf.getText());
                 if(cliente == null)
@@ -64,7 +66,7 @@ public class Bienvenida extends Stage {
                     alert.setContentText("Eres " + cliente.getNomCte() + "?");
                     alert.showAndWait().ifPresent(response -> {
                         if (response == ButtonType.OK) {
-                            System.out.println(cliente.getIdCte());
+                            new VistaReservacion(cliente);
                             this.close();
                         }
                     });
@@ -74,12 +76,12 @@ public class Bienvenida extends Stage {
             cancelar.setOnAction(e -> this.close());
             HBox hboxBtn = new HBox(10, iniciarSesion, cancelar);
             hboxBtn.setAlignment(Pos.CENTER);
-
             vb.getChildren().clear();
             vb.getChildren().addAll(
                     label,
                     tf,
-                    hboxBtn
+                    hboxBtn,
+                    ejemplo
             );
         }
     }
