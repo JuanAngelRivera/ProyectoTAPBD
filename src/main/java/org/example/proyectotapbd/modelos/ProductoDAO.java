@@ -10,6 +10,8 @@ public class ProductoDAO extends DAO<ProductoDAO> {
     private String nomProd;
     private double precio;
     private double costo;
+    private int idCat;
+    private String imagen;
 
     public int getIdProd() { return idProd; }
     public void setIdProd(int idProd) { this.idProd = idProd; }
@@ -23,8 +25,19 @@ public class ProductoDAO extends DAO<ProductoDAO> {
     public double getCosto() { return costo; }
     public void setCosto(double costo) { this.costo = costo; }
 
+    public int getIdCat() {
+        return idCat;
+    }
+
+    public void setIdCat(int idCat) {
+        this.idCat = idCat;
+    }
+
+    public String getImagen() { return imagen; }
+    public void setImagen(String imagen) { this.imagen = imagen; }
+
     public void INSERT() {
-        String query = "INSERT INTO producto(nomProd, precio, costo) VALUES('" + nomProd + "', " + precio + ", " + costo + ");";
+        String query = "INSERT INTO producto(nomProd, precio, costo, idCat, imagen) VALUES('" + nomProd + "', " + precio + ", " + costo + ", " + idCat + ", '" + imagen + "')";
         try {
             Statement stmt = Conexion.connection.createStatement();
             stmt.executeUpdate(query);
@@ -34,7 +47,7 @@ public class ProductoDAO extends DAO<ProductoDAO> {
     }
 
     public void UPDATE() {
-        String query = "UPDATE producto SET nomProd = '" + nomProd + "', precio = " + precio + ", costo = " + costo +
+        String query = "UPDATE producto SET nomProd = '" + nomProd + "', precio = " + precio + ", costo = " + costo + ", idCat = " + idCat + ", imagen = " + imagen +
                 " WHERE idProd = " + idProd + ";";
         try {
             Statement stmt = Conexion.connection.createStatement();
@@ -66,6 +79,8 @@ public class ProductoDAO extends DAO<ProductoDAO> {
                 p.setNomProd(rs.getString("nomProd"));
                 p.setPrecio(rs.getDouble("precio"));
                 p.setCosto(rs.getDouble("costo"));
+                p.setIdCat(rs.getInt("idCat"));
+                p.setImagen(rs.getString("imagen"));
                 lista.add(p);
             }
         } catch (Exception e) {
