@@ -1,6 +1,7 @@
 package org.example.proyectotapbd.vistas;
 
 import javafx.geometry.Insets;
+import javafx.scene.control.Label;
 import javafx.scene.control.ToolBar;
 import org.example.proyectotapbd.utils.Claves;
 import org.example.proyectotapbd.modelos.*;
@@ -11,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.example.proyectotapbd.utils.Query;
 
 public class VistaAdmin extends Stage
 {
@@ -58,7 +60,13 @@ public class VistaAdmin extends Stage
         grid.setVgap(10);
         grid.setGridLinesVisible(true);
         grid.setPadding(new Insets(10));
-        VBox vbox = new VBox(grid);
+
+        Label lblMasVendido = new Label();
+        lblMasVendido.setText("Más vendido: " + Query.getProductoMasVendido());
+        Label ventasPorDia = new Label("Ventas: ");
+        Label empleadoMasVentas = new Label("Empleado Mas Ventas: ");
+
+        VBox vbox = new VBox(grid, lblMasVendido, ventasPorDia, empleadoMasVentas);
         vbox.setAlignment(Pos.CENTER);
         vbox.setPadding(new Insets(10));
         root = new VBox(vbox);

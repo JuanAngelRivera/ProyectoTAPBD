@@ -1,10 +1,13 @@
 package org.example.proyectotapbd.utils;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import org.example.proyectotapbd.modelos.*;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -299,4 +302,68 @@ public  class Query {
         }
         return 0;
     }
+
+    public static ObservableList<ProductoMasVendido> getProductosMasVendidos() {
+        ObservableList<ProductoMasVendido> lista = FXCollections.observableArrayList();
+        String query = "SELECT p.idProd, p.nombre, SUM(c.cantidad) AS total_vendidos " +
+                "FROM contiene c " +
+                "JOIN producto p ON c.idProd = p.idProd " +
+                "GROUP BY p.idProd, p.nombre " +
+                "ORDER BY total_vendidos DESC;";
+
+        try {
+            Statement stmt = Conexion.connection.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                ProductoMasVendido p = new ProductoMasVendido();
+                p.setIdProd(rs.getInt("idProd"));
+                p.setNombre(rs.getString("nombre"));
+                p.setTotalVendidos(rs.getInt("total_vendidos"));
+                lista.add(p);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return lista;
+    }
+
+    public static String getProductoMasVendido() {
+        String resultado = "Sin ventas registradas.";
+        String query = "SELECT p.nomProd, SUM(c.cantidad) AS total_vendidos " +
+                "FROM contiene c " +
+                "JOIN producto p ON c.idProd = p.idProd " +
+                "GROUP BY p.idProd, p.nomProd " +
+                "ORDER BY total_vendidos DESC " +
+                "LIMIT 1;";
+
+        try {
+            Statement stmt = Conexion.connection.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            if (rs.next()) {
+                resultado = rs.getString("nomProd") + " (Vendidos: " + rs.getInt("total_vendidos") + ")";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return resultado;
+    }
+
+}
+
+class ProductoMasVendido {
+    private int idProd;
+    private String nombre;
+    private int totalVendidos;
+
+    // Getters y setters
+    public int getIdProd() { return idProd; }
+    public void setIdProd(int idProd) { this.idProd = idProd; }
+
+    public String getNombre() { return nombre; }
+    public void setNombre(String nombre) { this.nombre = nombre; }
+
+    public int getTotalVendidos() { return totalVendidos; }
+    public void setTotalVendidos(int totalVendidos) { this.totalVendidos = totalVendidos; }
 }

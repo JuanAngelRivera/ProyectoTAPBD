@@ -165,6 +165,7 @@ public class VistaFormularioProducto extends Stage {
                         i++;
                     }
                     Alert alerta2 = new Alert(Alert.AlertType.INFORMATION, "Registro realizado exitosamente");
+                    alerta2.showAndWait();
                 }
             });
         });
