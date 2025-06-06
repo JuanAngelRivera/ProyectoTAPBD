@@ -278,4 +278,25 @@ public  class Query {
         }
         return 0;
     }
+
+    public static int obtenerIdProducto(double precio, double costo, String nomProd, int idCat, String imagen)
+    {
+        String query = "SELECT idProd FROM producto WHERE precio = ? AND costo = ? AND nomProd = ? and idCat = ? and imagen = ?";
+        try(PreparedStatement ps = Conexion.connection.prepareStatement(query)){
+            ps.setDouble(1, precio);
+            ps.setDouble(2, costo);
+            ps.setString(3, nomProd);
+            ps.setInt(4, idCat);
+            ps.setString(5, imagen);
+            try(ResultSet rs = ps.executeQuery()){
+                if(rs.next())
+                {
+                    return rs.getInt("idProd");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 }

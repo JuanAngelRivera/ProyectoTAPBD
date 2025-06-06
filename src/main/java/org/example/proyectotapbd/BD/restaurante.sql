@@ -118,29 +118,10 @@ CREATE TABLE Orden (
                        CONSTRAINT fk_orden_mesa FOREIGN KEY (idMesa) REFERENCES Mesa(idMesa)
 );
 
--- Tabla Pago
-CREATE TABLE Pago (
-                      idPago INT AUTO_INCREMENT,
-                      idOrd INT,
-                      monto DECIMAL(10,2),
-                      idTipoPago INT,
-                      fechaPago DATETIME,
-                      CONSTRAINT pk_pago PRIMARY KEY (idPago),
-                      CONSTRAINT fk_pago_orden FOREIGN KEY (idOrd) REFERENCES Orden(idOrd),
-                      CONSTRAINT fk_tipo_pago FOREIGN KEY (idTipoPago) REFERENCES TipoPago(idTipoPago)
-);
-
 -- Tabla ErroresConstraint
 CREATE TABLE ErroresConstraint (
                                    nombreConstraint VARCHAR(100) PRIMARY KEY,
                                    descTurno TEXT
-);
-
--- Tabla TipoPago
-CREATE TABLE TipoPago(
-                    idTipoPago INT AUTO_INCREMENT,
-                    descTurno TEXT,
-                    CONSTRAINT pk_tipo_pago PRIMARY KEY (idTipoPago)
 );
 
 -- Tabla Ingredientes

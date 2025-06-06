@@ -8,6 +8,7 @@ import javafx.stage.Stage;
 import org.example.proyectotapbd.componentes.ButtonCell;
 import org.example.proyectotapbd.modelos.DAO;
 import org.example.proyectotapbd.modelos.Metodos;
+import org.example.proyectotapbd.modelos.ProductoDAO;
 
 import java.lang.reflect.Field;
 
@@ -37,12 +38,17 @@ public class VistaGenerica<T extends DAO<T>> extends Stage {
         tableView = new TableView<>();
         btnAgregar = new Button("Agregar");
         btnAgregar.setOnAction(e -> {
-            try {
-                new VistaFormularioGenerica<>(tableView, claseDAO.getDeclaredConstructor().newInstance());
-                tableView.setItems(dao.SELECT());
-                tableView.refresh();
-            } catch (Exception ex) {
-                ex.printStackTrace();
+            if(claseDAO.getSimpleName().equals("ProductoDAO")) {
+                new VistaFormularioProducto();
+            }
+            else {
+                try {
+                    new VistaFormularioGenerica<>(tableView, claseDAO.getDeclaredConstructor().newInstance());
+                    tableView.setItems(dao.SELECT());
+                    tableView.refresh();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
         });
 

@@ -87,7 +87,7 @@ public class OrdenDAO extends DAO<OrdenDAO> {
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
                 OrdenDAO o = new OrdenDAO();
-                o.setIdOrd(rs.getInt("idOrden"));
+                o.setIdOrd(rs.getInt("idOrd"));
                 o.setTotal(rs.getDouble("total"));
                 o.setFecha(rs.getString("fecha"));
                 o.setIdEmp(rs.getInt("idEmp"));
