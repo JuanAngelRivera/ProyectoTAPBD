@@ -3,7 +3,6 @@ package org.example.proyectotapbd.componentes;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.example.proyectotapbd.modelos.EmpleadoDAO;
@@ -17,7 +16,7 @@ public class TarjetaEmpleado extends HBox {
         if (turnoDAO != null) {
             Label nombre = new Label(empleadoDAO.getNomEmp());
             Label puesto = new Label(empleadoDAO.getPuestoEmp());
-            Label turno = new Label(turnoDAO.getDescripcion());
+            Label turno = new Label(turnoDAO.getDescTurno());
             Label inicio = new Label(turnoDAO.getHoraInicio());
             Label fin = new Label(turnoDAO.getHoraFin());
             VBox vbox = new VBox(10, nombre, puesto, turno, inicio, fin);

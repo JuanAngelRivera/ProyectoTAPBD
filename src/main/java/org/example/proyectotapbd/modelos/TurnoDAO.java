@@ -9,7 +9,7 @@ public class TurnoDAO extends DAO<TurnoDAO> {
     private int idTurno;
     private String horaInicio;
     private String horaFin;
-    private String descripcion;
+    private String descTurno;
 
     // Getters y setters
     public int getIdTurno() {
@@ -36,17 +36,17 @@ public class TurnoDAO extends DAO<TurnoDAO> {
         this.horaFin = horaFin;
     }
 
-    public String getDescripcion() {
-        return descripcion;
+    public String getDescTurno() {
+        return descTurno;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+    public void setDescTurno(String descTurno) {
+        this.descTurno = descTurno;
     }
 
     @Override
     public void INSERT() {
-        String query = "INSERT INTO turno(horaInicio, horaFin, descripcion) VALUES('" + horaInicio + "', '" + horaFin + "', '" + descripcion + "');";
+        String query = "INSERT INTO turno(horaInicio, horaFin, descripcion) VALUES('" + horaInicio + "', '" + horaFin + "', '" + descTurno + "');";
         try {
             Statement stmt = Conexion.connection.createStatement();
             stmt.executeUpdate(query);
@@ -57,7 +57,7 @@ public class TurnoDAO extends DAO<TurnoDAO> {
 
     @Override
     public void UPDATE() {
-        String query = "UPDATE turno SET horaInicio = '" + horaInicio + "', horaFin = '" + horaFin + "', descripcion = '" + descripcion + "' WHERE idTurno = " + idTurno + ";";
+        String query = "UPDATE turno SET horaInicio = '" + horaInicio + "', horaFin = '" + horaFin + "', descripcion = '" + descTurno + "' WHERE idTurno = " + idTurno + ";";
         try {
             Statement stmt = Conexion.connection.createStatement();
             stmt.executeUpdate(query);
@@ -89,7 +89,7 @@ public class TurnoDAO extends DAO<TurnoDAO> {
                 t.setIdTurno(rs.getInt("idTurno"));
                 t.setHoraInicio(rs.getString("horaInicio"));
                 t.setHoraFin(rs.getString("horaFin"));
-                t.setDescripcion(rs.getString("descripcion"));
+                t.setDescTurno(rs.getString("descTurno"));
                 lista.add(t);
             }
         } catch (Exception e) {

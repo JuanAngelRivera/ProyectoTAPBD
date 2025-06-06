@@ -14,7 +14,7 @@ public class TarjetaProducto extends VBox {
             imagen.setFitHeight(50);
             imagen.setFitWidth(50);
             Label titulo = new Label(productoDAO.getNomProd());
-            Label precio = new Label(productoDAO.getPrecio() + "");
+            Label precio = new Label("$" + productoDAO.getPrecio());
             VBox vbox = new VBox(5, imagen, titulo, precio);
             vbox.setAlignment(Pos.CENTER);
             this.getChildren().add(vbox);

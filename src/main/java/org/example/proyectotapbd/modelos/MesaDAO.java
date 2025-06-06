@@ -20,7 +20,7 @@ public class MesaDAO extends DAO<MesaDAO> {
     public void setOcupada(boolean ocupada) { this.ocupada = ocupada; }
 
     public void INSERT() {
-        String query = "INSERT INTO mesa(idMesa, capacidad, ocupada) VALUES(" + idMesa + ", " + capacidad + ", '" + ocupada + "');";
+        String query = "INSERT INTO mesa(idMesa, capacidad, ocupada) VALUES(" + idMesa + ", " + capacidad + ", '" + (ocupada ? 1 : 0) + "');";
         try {
             Statement stmt = Conexion.connection.createStatement();
             stmt.executeUpdate(query);
@@ -30,7 +30,7 @@ public class MesaDAO extends DAO<MesaDAO> {
     }
 
     public void UPDATE() {
-        String query = "UPDATE mesa SET capacidad = " + capacidad + ", ocupada = '" + ocupada +
+        String query = "UPDATE mesa SET capacidad = " + capacidad + ", ocupada = '" + (ocupada ? 1 : 0) +
                 "' WHERE idMesa = " + idMesa + ";";
         try {
             Statement stmt = Conexion.connection.createStatement();

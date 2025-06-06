@@ -14,6 +14,8 @@ import org.example.proyectotapbd.componentes.TarjetaProducto;
 import org.example.proyectotapbd.modelos.*;
 import org.example.proyectotapbd.utils.Query;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +29,7 @@ public class VistaEmpleado extends Stage {
     ClienteDAO clienteSeleccionado;
     HBox hboxOrden;
     MesaDAO mesaSeleccionado;
+    EmpleadoDAO empleadoSeleccionado;
 
     void createUI(EmpleadoDAO empleado)
     {
@@ -57,7 +60,7 @@ public class VistaEmpleado extends Stage {
         Label labelNom = new Label(empleado.getNomEmp() + " (" + empleado.getPuestoEmp() + ")");
         Label labelRFC = new Label(empleado.getRfc());
         TurnoDAO turno = Query.obtenerTurno(empleado.getIdTurno());
-        Label labelTurno = new Label(turno.getDescripcion() + " " + turno.getHoraInicio() + " - " + turno.getHoraFin());
+        Label labelTurno = new Label(turno.getDescTurno() + " " + turno.getHoraInicio() + " - " + turno.getHoraFin());
         HBox hbox = new HBox(10, labelNom, labelRFC, labelTurno);
         hbox.setAlignment(Pos.CENTER);
         return hbox;
@@ -254,21 +257,91 @@ public class VistaEmpleado extends Stage {
                 alert.showAndWait();
                 return;
             }
+            if(mesaSeleccionado.getOcupada())
+            {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Esta mesa ya esta ocupada");
+                alert.showAndWait();
+                return;
+            }
             if(productos.isEmpty()){
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Verifica que hayas añadido los productos");
                 alert.showAndWait();
                 return;
             }
+            try{
+                String aux = new String();
+                int j = 0;
+                for(ProductoDAO producto : productos){
+                    aux = aux + cantidades.get(j);
+                    aux = aux + " - " +  producto.getNomProd();
+                    aux = aux + " - " + producto.getPrecio() * cantidades.get(j);
+                    aux = aux + "\n";
+                    j++;
+                }
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Confirmacion");
+                alert.setHeaderText("Confirma que el pedido es correcto: ");
+                alert.setContentText("Cliente: " + clienteSeleccionado.getNomCte() + "\n" +
+                                    "Empleado: " + empleadoSeleccionado.getNomEmp() + "\n" +
+                                    "Mesa: " + mesaSeleccionado.getIdMesa() + " capadidad: " + mesaSeleccionado.getCapacidad() + "\n" +
+                                    "Cantidad Producto Subtotal\n" + aux +
+                                    "Total: " + subtotal
+                );
+                alert.showAndWait().ifPresent(response -> {
+                    if(response == ButtonType.OK){
+                        OrdenDAO orden = new OrdenDAO();
+                        orden.setIdCte(clienteSeleccionado.getIdCte());
+                        orden.setIdMesa(mesaSeleccionado.getIdMesa());
+                        orden.setIdEmp(empleadoSeleccionado.getIdEmp());
+                        orden.setTotal(subtotal);
+                        LocalDateTime fechaHora = LocalDateTime.now();
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                        String fechaFormateada = fechaHora.format(formatter);
+                        orden.setFecha(fechaFormateada);
+                        orden.INSERT();
 
+                        int idOrden = Query.obtenerIdOrden(orden.getIdEmp(), orden.getIdCte(), orden.getIdMesa(), orden.getFecha(), orden.getTotal());
+                        ContieneDAO contiene = new ContieneDAO();
+                        contiene.setIdOrd(idOrden);
+                        int i = 0;
+                        for(ProductoDAO producto : productos){
+                            contiene.setIdProd(producto.getIdProd());
+                            contiene.setCantidad(cantidades.get(i));
+                            contiene.INSERT();
+                            i++;
+                        }
+                        mesaSeleccionado.setOcupada(true);
+                        mesaSeleccionado.UPDATE();
+
+                        mesaSeleccionado = null;
+                        clienteSeleccionado = null;
+                        productoSeleccionado = null;
+                        subtotal = 0.0;
+                        productos.clear();
+                        cantidades.clear();
+                        Alert a = new Alert(Alert.AlertType.INFORMATION, "Registro realizado correctamente");
+                        a.showAndWait().ifPresent(respuesta -> {
+                            if(respuesta == ButtonType.OK){
+                                new VistaEmpleado(empleadoSeleccionado);
+                                this.close();
+                            }
+                        });
+                    }
+                });
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
         });
         hboxbtntotal.getChildren().addAll(totalLabel, btnOrden);
         hboxbtntotal.setAlignment(Pos.BOTTOM_CENTER);
         VBox general = new VBox(titulo, grid, hboxbtntotal);
         return new HBox(general);
+
     }
 
     public VistaEmpleado(EmpleadoDAO empleado) {
-        createUI(empleado);
+        this.empleadoSeleccionado = empleado;
+            createUI(empleado);
         this.setScene(scene);
         Metodos.configVista(this, root);
     }

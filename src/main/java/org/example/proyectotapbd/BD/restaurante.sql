@@ -133,13 +133,13 @@ CREATE TABLE Pago (
 -- Tabla ErroresConstraint
 CREATE TABLE ErroresConstraint (
                                    nombreConstraint VARCHAR(100) PRIMARY KEY,
-                                   descripcion TEXT
+                                   descTurno TEXT
 );
 
 -- Tabla TipoPago
 CREATE TABLE TipoPago(
                     idTipoPago INT AUTO_INCREMENT,
-                    descripcion TEXT,
+                    descTurno TEXT,
                     CONSTRAINT pk_tipo_pago PRIMARY KEY (idTipoPago)
 );
 
@@ -151,4 +151,14 @@ CREATE TABLE Ingredientes(
                    CONSTRAINT pk_ingredientes PRIMARY KEY (idIns, idProd),
                    CONSTRAINT foreign key (idIns) references Insumo(idIns),
                    CONSTRAINT foreign key (idProd) references Producto(idProd)
+);
+
+-- Tabla Contiene
+CREATE TABLE Contiene(
+                  idOrd int,
+                  idProd int,
+                  cantidad int,
+                  CONSTRAINT pk_contiene PRIMARY KEY (idOrd, idProd),
+                  CONSTRAINT foreign key (idOrd) references Orden(idOrd),
+                  CONSTRAINT foreign key (idProd) references Producto(idProd)
 );

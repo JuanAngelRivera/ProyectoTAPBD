@@ -1,4 +1,4 @@
-INSERT INTO ErroresConstraint (nombreConstraint, descripcion) VALUES
+INSERT INTO ErroresConstraint (nombreConstraint, descTurno) VALUES
 -- Turno
 ('pk_turno', 'La clave primaria de la tabla Turno no puede estar repetida ni ser nula.'),
 

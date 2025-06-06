@@ -4,6 +4,7 @@ import org.example.proyectotapbd.modelos.*;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -99,7 +100,7 @@ public  class Query {
                     turnoDAO.setIdTurno(rs.getInt("idTurno"));
                     turnoDAO.setHoraInicio(rs.getString("horaInicio"));
                     turnoDAO.setHoraFin(rs.getString("horaFin"));
-                    turnoDAO.setDescripcion(rs.getString("descTurno"));
+                    turnoDAO.setDescTurno(rs.getString("descTurno"));
                 }
             }
         }catch (Exception e){
@@ -252,6 +253,27 @@ public  class Query {
                 return rs.getInt("cantidad");
             }
         }catch (Exception e){
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public static int obtenerIdOrden(int idEmp, int idCte, int idMesa, String fecha, double total)
+    {
+        String query = "SELECT idOrd FROM orden WHERE idEmp = ? AND idCte = ? AND idMesa = ? and fecha = ? and total = ?";
+        try(PreparedStatement ps = Conexion.connection.prepareStatement(query)){
+            ps.setInt(1, idEmp);
+            ps.setInt(2, idCte);
+            ps.setInt(3, idMesa);
+            ps.setString(4, fecha);
+            ps.setDouble(5, total);
+            try(ResultSet rs = ps.executeQuery()){
+                if(rs.next())
+                {
+                    return rs.getInt("idOrd");
+                }
+            }
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return 0;

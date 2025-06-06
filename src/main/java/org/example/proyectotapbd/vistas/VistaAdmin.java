@@ -33,7 +33,9 @@ public class VistaAdmin extends Stage
         Button btnCliente = new Button("Cliente");
         btnCliente.setOnAction(actionEvent -> new VistaGenerica<>(ClienteDAO.class));
         Button btnMesa = new Button("Mesa");
+        btnMesa.setOnAction(actionEvent -> new VistaGenerica<>(MesaDAO.class));
         Button btnReservacion = new Button("Reservacion");
+        btnReservacion.setOnAction(actionEvent -> new VistaGenerica<>(ReservacionDAO.class));
         Button btnPago = new Button("Pago");
         btnPago.setOnAction(actionEvent -> new VistaGenerica<>(PagoDAO.class));
         Button btnTurno = new Button("Turno");
